@@ -1,0 +1,58 @@
+package com.hellfire.model;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+@Data
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString(exclude = {"foods", "categories"})
+public class Restaurant {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private  Long id;
+
+    @OneToOne
+    private  User owner;
+
+    private  String name;
+    @Column(length = 1000)
+    private  String description;
+    private  String cuisineType;
+
+
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    private Address address;
+
+    @Embedded
+    private ContactInformation contactInformation;
+
+    private String openingHours;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "restaurant",cascade = CascadeType.ALL,orphanRemoval = true)
+    private List<Order> orders = new ArrayList<>();
+
+
+    @ElementCollection
+    @Column(length = 1000)
+    private List<String> images;
+
+    private LocalDateTime registrationDate;
+
+    private  boolean open;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "restaurant",cascade = CascadeType.ALL,orphanRemoval = true)
+    private List<Food> foods=new ArrayList<>();
+}
