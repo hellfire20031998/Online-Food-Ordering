@@ -49,12 +49,6 @@ public class JwtTokenValidator extends OncePerRequestFilter {
                 Authentication authentication= new UsernamePasswordAuthenticationToken(email,null,auth);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
 
-//                System.out.println("Authorities added: " + authorities);
-//                System.out.println("Authenticated: " + authentication);
-//                System.out.println("Current user: " + SecurityContextHolder.getContext().getAuthentication().getName());
-//                System.out.println("Current user principal: " + SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-//                System.out.println("Current user authorities: " + SecurityContextHolder.getContext().getAuthentication().getAuthorities());
-//                System.out.println("Current User roles: " + roles);
             }catch (Exception e){
 
                 throw  new BadCredentialsException("invalid token....");

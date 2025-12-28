@@ -119,6 +119,17 @@ public class AuthController {
         USER_ROLE manager=USER_ROLE.CUSTOMER;
         USER_ROLE member=USER_ROLE.MEMBER;
 
+        List<USER_ROLE> roles = Arrays.asList(admin,manager);
+        return roles;
+    }
+
+    @GetMapping("/restaurant/roles")
+    public List<USER_ROLE> getRestaurantRoles(){
+
+        USER_ROLE admin=USER_ROLE.ADMIN;
+        USER_ROLE manager=USER_ROLE.MANAGER;
+        USER_ROLE member=USER_ROLE.MEMBER;
+
         List<USER_ROLE> roles = Arrays.asList(admin,manager,member);
         return roles;
     }

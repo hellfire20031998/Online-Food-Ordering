@@ -4,6 +4,7 @@ package com.hellfire.controller;
 import com.hellfire.model.Restaurant;
 import com.hellfire.model.User;
 import com.hellfire.request.CreateRestaurantRequest;
+import com.hellfire.request.UserAndRoleRequest;
 import com.hellfire.response.MessageResponse;
 import com.hellfire.service.RestaurantService;
 import com.hellfire.service.UserService;
@@ -88,6 +89,7 @@ public class AdminRestaurantController {
         }
         return  new ResponseEntity<>(restaurant, HttpStatus.OK);
     }
+
 
 
 

@@ -40,5 +40,9 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
     private List<Address> addresses = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RestaurantRole> restaurantRoles = new ArrayList<>();
+
+
 
 }

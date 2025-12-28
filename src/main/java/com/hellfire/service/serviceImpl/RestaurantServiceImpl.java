@@ -5,9 +5,11 @@ import com.hellfire.Dto.RestaurantDto;
 import com.hellfire.exceptions.RestaurantException;
 import com.hellfire.model.Address;
 import com.hellfire.model.Restaurant;
+import com.hellfire.model.RestaurantRole;
 import com.hellfire.model.User;
 import com.hellfire.repository.AddressRepository;
 import com.hellfire.repository.RestaurantRepository;
+import com.hellfire.repository.RestaurantRoleRepository;
 import com.hellfire.repository.UserRepository;
 import com.hellfire.request.CreateRestaurantRequest;
 import com.hellfire.service.RestaurantService;
@@ -31,6 +33,9 @@ public class RestaurantServiceImpl implements RestaurantService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private RestaurantRoleRepository restaurantRoleRepository;
+
     @Override
     public Restaurant createRestaurant(CreateRestaurantRequest req, User user) {
 
@@ -46,6 +51,7 @@ public class RestaurantServiceImpl implements RestaurantService {
         restaurant.setRegistrationDate(LocalDateTime.now());
         restaurant.setOwner(user);
         restaurant.setOpen(true);
+        restaurant.setCuisineType(req.getCuisineType());
 //        System.out.println("restaurant created "+restaurant);
         return restaurantRepository.save(restaurant);
     }
@@ -149,6 +155,8 @@ public class RestaurantServiceImpl implements RestaurantService {
         restaurant.setOpen(!restaurant.isOpen());
         return restaurantRepository.save(restaurant);
     }
+
+
 
 
 }

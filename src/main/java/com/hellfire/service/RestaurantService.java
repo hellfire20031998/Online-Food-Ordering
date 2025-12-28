@@ -2,6 +2,7 @@ package com.hellfire.service;
 
 import com.hellfire.Dto.RestaurantDto;
 import com.hellfire.model.Restaurant;
+import com.hellfire.model.RestaurantRole;
 import com.hellfire.model.User;
 import com.hellfire.request.CreateRestaurantRequest;
 
@@ -27,4 +28,5 @@ public interface RestaurantService {
     RestaurantDto addToFavourites(Long id,User user) throws Exception;
 
     Restaurant updateRestaurantStatus(Long id) throws Exception;
+
 }
