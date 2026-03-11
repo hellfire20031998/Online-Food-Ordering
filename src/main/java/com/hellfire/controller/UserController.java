@@ -1,8 +1,9 @@
 package com.hellfire.controller;
 
 
-import com.hellfire.model.Address;
 import com.hellfire.model.User;
+import com.hellfire.user.dto.UserDto;
+import com.hellfire.user.mapper.UserMapper;
 import com.hellfire.service.AddressService;
 import com.hellfire.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +26,9 @@ public class UserController {
     private AddressService addressService;
 
     @GetMapping("/profile")
-    public ResponseEntity<User> findUserByJwtToken(@RequestHeader("Authorization") String token) throws Exception {
-        User user= userService.findUserByJwtToken(token);
-
-        return  new ResponseEntity<>(user, HttpStatus.OK);
+    public ResponseEntity<UserDto> findUserByJwtToken(@RequestHeader("Authorization") String token) throws Exception {
+        User user = userService.findUserByJwtToken(token);
+        return  new ResponseEntity<>(UserMapper.toDto(user), HttpStatus.OK);
     }
 
 

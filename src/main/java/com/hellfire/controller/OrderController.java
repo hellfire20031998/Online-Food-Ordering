@@ -4,6 +4,8 @@ package com.hellfire.controller;
 import com.hellfire.model.Order;
 import com.hellfire.model.USER_ROLE;
 import com.hellfire.model.User;
+import com.hellfire.order.dto.OrderDto;
+import com.hellfire.order.mapper.OrderMapper;
 import com.hellfire.request.OrderRequest;
 import com.hellfire.response.Authorized;
 import com.hellfire.response.OrderResponse;
@@ -27,15 +29,11 @@ public class OrderController {
 
 
     @PostMapping("/order")
-    public ResponseEntity<?> createOrder(@RequestBody OrderRequest orderRequest,
+    public ResponseEntity<OrderResponse> createOrder(@RequestBody OrderRequest orderRequest,
                                          @RequestHeader("Authorization") String token) throws Exception {
         User user=userService.findUserByJwtToken(token);
         OrderResponse response=new OrderResponse();
-//        if(!(user.getRole() == USER_ROLE.ADMIN || user.getRole() == USER_ROLE.MANAGER)){
-//
-//            response.setAuthorized(Authorized.UNAUTHORIZED);
-//            return  new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
-//        }
+
         Order order = orderService.createOrder(orderRequest, user);
         response.setOrder(order);
         response.setAuthorized(Authorized.AUTHORIZED);
@@ -44,24 +42,23 @@ public class OrderController {
     }
 
     @GetMapping("/order/user")
-    public ResponseEntity<?> getOrderHistory(@RequestHeader("Authorization") String token) throws Exception {
+    public ResponseEntity<List<OrderDto>> getOrderHistory(@RequestHeader("Authorization") String token) throws Exception {
 
 
         System.out.println("token: "+token);
         User user= userService.findUserByJwtToken(token);
 //        System.out.println("User with jwt"+user);
-        List<Order> orders = orderService.getUsersOrder(user.getId());
+        List<OrderDto> orders = OrderMapper.toDtos(orderService.getUsersOrder(user.getId()));
 
         return new ResponseEntity<>(orders, HttpStatus.OK);
     }
     @DeleteMapping("/order/{id}")
-    public ResponseEntity<?> cancelOrder(@PathVariable Long id,
+    public ResponseEntity<String> cancelOrder(@PathVariable Long id,
             @RequestHeader("Authorization") String token) throws Exception {
         User user=userService.findUserByJwtToken(token);
         OrderResponse response=new OrderResponse();
         if(!(user.getRole() == USER_ROLE.ADMIN )){
 
-            response.setAuthorized(Authorized.UNAUTHORIZED);
             return  new ResponseEntity<>("UNSUCCESSFUL", HttpStatus.UNAUTHORIZED);
         }
         orderService.cancelOrder(id);

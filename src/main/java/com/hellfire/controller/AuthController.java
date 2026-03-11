@@ -42,7 +42,6 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<AuthResponse> createUserHandler(@RequestBody User user) throws Exception {
-        System.out.println("Hello from signup controller "+user);
         User isEmailExists=userRepository.findByEmail(user.getEmail());
 
         if(isEmailExists != null){
@@ -68,9 +67,6 @@ public class AuthController {
         authResponse.setJwt(jwt);
         authResponse.setMessage("Successfully registered");
         authResponse.setRole(user.getRole());
-
-
-
         return  new ResponseEntity<>(authResponse, HttpStatus.CREATED);
     }
 

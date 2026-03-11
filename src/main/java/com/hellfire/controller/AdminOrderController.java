@@ -1,7 +1,8 @@
 package com.hellfire.controller;
 
-import com.hellfire.model.Order;
 import com.hellfire.model.User;
+import com.hellfire.order.dto.OrderDto;
+import com.hellfire.order.mapper.OrderMapper;
 import com.hellfire.request.OrderRequest;
 import com.hellfire.service.OrderService;
 import com.hellfire.service.UserService;
@@ -25,20 +26,19 @@ public class AdminOrderController {
 
 
     @GetMapping("/order/restaurant/{id}")
-    public ResponseEntity<?> getOrderHistory(@PathVariable Long id,
+    public ResponseEntity<List<OrderDto>> getOrderHistory(@PathVariable Long id,
                                              @RequestParam(required = false) String status,
                                              @RequestHeader("Authorization") String token) throws Exception {
 
 
-        List<Order> orders = orderService.getRestaurantOrder(id,status);
+        List<OrderDto> orders = OrderMapper.toDtos(orderService.getRestaurantOrder(id,status));
         return new ResponseEntity<>(orders, HttpStatus.OK);
     }
 
     @PutMapping("/order/{id}/{status}")
-    public ResponseEntity<?> updateOrderStatus(@PathVariable Long id,
+    public ResponseEntity<OrderDto> updateOrderStatus(@PathVariable Long id,
                                                @PathVariable String status,
                                                @RequestHeader("Authorization") String token) throws Exception {
-        Order order = orderService.updateOrder(id,status);
-        return new ResponseEntity<>(order, HttpStatus.OK);
+        return new ResponseEntity<>(OrderMapper.toDto(orderService.updateOrder(id,status)), HttpStatus.OK);
     }
 }
