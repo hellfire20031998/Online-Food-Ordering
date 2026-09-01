@@ -1,0 +1,842 @@
+{
+	"info": {
+		"_postman_id": "a2235393-e3a2-47e2-ad98-ce4aa3727910",
+		"name": "REST API for FoodOrdering",
+		"description": "# 🚀 Get started here\n\nThis template guides you through CRUD operations (GET, POST, PUT, DELETE), variables, and tests.\n\n## 🔖 **How to use this template**\n\n#### **Step 1: Send requests**\n\nRESTful APIs allow you to perform CRUD operations using the POST, GET, PUT, and DELETE HTTP methods.\n\nThis collection contains each of these [request](https://learning.postman.com/docs/sending-requests/requests/) types. Open each request and click \"Send\" to see what happens.\n\n#### **Step 2: View responses**\n\nObserve the response tab for status code (200 OK), response time, and size.\n\n#### **Step 3: Send new Body data**\n\nUpdate or add new data in \"Body\" in the POST request. Typically, Body data is also used in PUT request.\n\n```\n{\n    \"name\": \"Add your name in the body\"\n}\n\n ```\n\n#### **Step 4: Update the variable**\n\nVariables enable you to store and reuse values in Postman. We have created a [variable](https://learning.postman.com/docs/sending-requests/variables/) called `base_url` with the sample request [https://postman-api-learner.glitch.me](https://postman-api-learner.glitch.me). Replace it with your API endpoint to customize this collection.\n\n#### **Step 5: Add tests in the \"Scripts\" tab**\n\nAdding tests to your requests can help you confirm that your API is working as expected. You can write test scripts in JavaScript and view the output in the \"Test Results\" tab.\n\n<img src=\"https://content.pstmn.io/fa30ea0a-373d-4545-a668-e7b283cca343/aW1hZ2UucG5n\" alt=\"\" height=\"1530\" width=\"2162\">\n\n## 💪 Pro tips\n\n- Use folders to group related requests and organize the collection.\n    \n- Add more [scripts](https://learning.postman.com/docs/writing-scripts/intro-to-scripts/) to verify if the API works as expected and execute workflows.\n    \n\n## 💡Related templates\n\n[API testing basics](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=e9a37a28-055b-49cd-8c7e-97494a21eb54&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)  \n[API documentation](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=e9c28f47-1253-44af-a2f3-20dce4da1f18&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)  \n[Authorization methods](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=31a9a6ed-4cdf-4ced-984c-d12c9aec1c27&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33461935"
+	},
+	"item": [
+		{
+			"name": "UserService",
+			"item": [
+				{
+					"name": "signUp",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"fullName\":\"Raju Pandey\",\n    \"email\":\"raju1@gmail.com\",\n    \"password\":\"123\",\n    \"role\":\"ADMIN\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/auth/signup",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"signup"
+							]
+						},
+						"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+					},
+					"response": []
+				},
+				{
+					"name": "signIn",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\":\"raju@gmail.com\",\r\n    \"password\":\"12345\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/auth/signin",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"signin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User profile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDg1MzkyODksImV4cCI6MTc0OTQwMzI4OSwiZW1haWwiOiJyYWp1QGdtYWlsLmNvbSIsImF1dGhvcml0aWVzIjoiUk9MRV9SRVNUQVVSQU5UX09XTkVSIn0.PBX-wgI5-aoN2AIlVhCHPoU-i8GyuLMHeF0syEeUq_hf0PaiyyPq3FSYj2y_rvmepL9CvAnEQnIiD63T_QalAA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/users/profile",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"profile"
+							]
+						},
+						"description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+					},
+					"response": []
+				},
+				{
+					"name": "getAddresses",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDg4MDgzODUsImV4cCI6MTc0OTY3MjM4NSwiZW1haWwiOiJyYWp1QGdtYWlsLmNvbSIsImF1dGhvcml0aWVzIjoiTUVNQkVSIn0.qcTAyFjVlBATuvlBIj7zoEmqaD1axnZQdlFlLKZ0NYjPuSEIPkQWNOUGW_epLycLQCMhmCso3-2e8v2qOXnq6A",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/users/getAddresses",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"getAddresses"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Restaurant Service",
+			"item": [
+				{
+					"name": "create Restaurant",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDg1MzkyODksImV4cCI6MTc0OTQwMzI4OSwiZW1haWwiOiJyYWp1QGdtYWlsLmNvbSIsImF1dGhvcml0aWVzIjoiUk9MRV9SRVNUQVVSQU5UX09XTkVSIn0.PBX-wgI5-aoN2AIlVhCHPoU-i8GyuLMHeF0syEeUq_hf0PaiyyPq3FSYj2y_rvmepL9CvAnEQnIiD63T_QalAA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Spice Symphony\",\r\n    \"description\": \"Authentic Indian flavors served with a modern twist.\",\r\n    \"cuisineType\": \"Indian\",\r\n    \"address\": {\r\n      \"street\": \"456 Curry Lane\",\r\n      \"city\": \"Chicago\",\r\n      \"state\": \"IL\",\r\n      \"zipCode\": \"60616\",\r\n      \"country\": \"USA\"\r\n    },\r\n    \"contactInformation\": {\r\n      \"phoneNumber\": \"+1 312-555-6789\",\r\n      \"email\": \"info@spicesymphony.com\",\r\n      \"website\": \"https://www.spicesymphony.com\"\r\n    },\r\n    \"openingHours\": \"Tue-Sun: 11:00 AM - 10:00 PM\",\r\n    \"orders\": [\r\n      {\r\n        \"id\": 601,\r\n        \"customerId\": 401,\r\n        \"orderDate\": \"2024-03-10T19:20:00\",\r\n        \"totalAmount\": 65.75,\r\n        \"status\": \"Completed\"\r\n      },\r\n      {\r\n        \"id\": 602,\r\n        \"customerId\": 402,\r\n        \"orderDate\": \"2024-03-12T14:10:00\",\r\n        \"totalAmount\": 38.00,\r\n        \"status\": \"Cancelled\"\r\n      }\r\n    ],\r\n    \"images\": [\r\n      \"https://example.com/images/spice1.jpg\",\r\n      \"https://example.com/images/spice2.jpg\"\r\n    ]\r\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/admin/restaurants",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"admin",
+								"restaurants"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all restaurants",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDg1MzkyODksImV4cCI6MTc0OTQwMzI4OSwiZW1haWwiOiJyYWp1QGdtYWlsLmNvbSIsImF1dGhvcml0aWVzIjoiUk9MRV9SRVNUQVVSQU5UX09XTkVSIn0.PBX-wgI5-aoN2AIlVhCHPoU-i8GyuLMHeF0syEeUq_hf0PaiyyPq3FSYj2y_rvmepL9CvAnEQnIiD63T_QalAA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/restaurants",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"restaurants"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get users restaurants",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/admin/restaurants/user",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"admin",
+								"restaurants",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Restaurant Status",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDg1MzkyODksImV4cCI6MTc0OTQwMzI4OSwiZW1haWwiOiJyYWp1QGdtYWlsLmNvbSIsImF1dGhvcml0aWVzIjoiUk9MRV9SRVNUQVVSQU5UX09XTkVSIn0.PBX-wgI5-aoN2AIlVhCHPoU-i8GyuLMHeF0syEeUq_hf0PaiyyPq3FSYj2y_rvmepL9CvAnEQnIiD63T_QalAA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/admin/restaurants/2/status",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"admin",
+								"restaurants",
+								"2",
+								"status"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add to Favorites",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/restaurants/1/add-favorites",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"restaurants",
+								"1",
+								"add-favorites"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Restaurant by owner id",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Food Category",
+			"item": [
+				{
+					"name": "Create Food Category",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDg1MzkyODksImV4cCI6MTc0OTQwMzI4OSwiZW1haWwiOiJyYWp1QGdtYWlsLmNvbSIsImF1dGhvcml0aWVzIjoiUk9MRV9SRVNUQVVSQU5UX09XTkVSIn0.PBX-wgI5-aoN2AIlVhCHPoU-i8GyuLMHeF0syEeUq_hf0PaiyyPq3FSYj2y_rvmepL9CvAnEQnIiD63T_QalAA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"burger\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/admin/category",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"admin",
+								"category"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get restaurant categroy",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDg1MzkyODksImV4cCI6MTc0OTQwMzI4OSwiZW1haWwiOiJyYWp1QGdtYWlsLmNvbSIsImF1dGhvcml0aWVzIjoiUk9MRV9SRVNUQVVSQU5UX09XTkVSIn0.PBX-wgI5-aoN2AIlVhCHPoU-i8GyuLMHeF0syEeUq_hf0PaiyyPq3FSYj2y_rvmepL9CvAnEQnIiD63T_QalAA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/category/restaurant/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"category",
+								"restaurant",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Ingredients",
+			"item": [
+				{
+					"name": "get ingredients of restaurant",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDg1MzkyODksImV4cCI6MTc0OTQwMzI4OSwiZW1haWwiOiJyYWp1QGdtYWlsLmNvbSIsImF1dGhvcml0aWVzIjoiUk9MRV9SRVNUQVVSQU5UX09XTkVSIn0.PBX-wgI5-aoN2AIlVhCHPoU-i8GyuLMHeF0syEeUq_hf0PaiyyPq3FSYj2y_rvmepL9CvAnEQnIiD63T_QalAA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/admin/ingredients/restaurant/2",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"admin",
+								"ingredients",
+								"restaurant",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create ingredient category",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDg1MzkyODksImV4cCI6MTc0OTQwMzI4OSwiZW1haWwiOiJyYWp1QGdtYWlsLmNvbSIsImF1dGhvcml0aWVzIjoiUk9MRV9SRVNUQVVSQU5UX09XTkVSIn0.PBX-wgI5-aoN2AIlVhCHPoU-i8GyuLMHeF0syEeUq_hf0PaiyyPq3FSYj2y_rvmepL9CvAnEQnIiD63T_QalAA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"category\":\"souce\",\r\n    \"restaurantId\":2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/admin/ingredients/category",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"admin",
+								"ingredients",
+								"category"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create ingredient",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDg1MzkyODksImV4cCI6MTc0OTQwMzI4OSwiZW1haWwiOiJyYWp1QGdtYWlsLmNvbSIsImF1dGhvcml0aWVzIjoiUk9MRV9SRVNUQVVSQU5UX09XTkVSIn0.PBX-wgI5-aoN2AIlVhCHPoU-i8GyuLMHeF0syEeUq_hf0PaiyyPq3FSYj2y_rvmepL9CvAnEQnIiD63T_QalAA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ingredientName\":\"white souce\" ,\r\n    \"categoryId\":3,\r\n    \"restaurantId\":2\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/admin/ingredients",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"admin",
+								"ingredients"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Foods",
+			"item": [
+				{
+					"name": "create menu",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDg1MzkyODksImV4cCI6MTc0OTQwMzI4OSwiZW1haWwiOiJyYWp1QGdtYWlsLmNvbSIsImF1dGhvcml0aWVzIjoiUk9MRV9SRVNUQVVSQU5UX09XTkVSIn0.PBX-wgI5-aoN2AIlVhCHPoU-i8GyuLMHeF0syEeUq_hf0PaiyyPq3FSYj2y_rvmepL9CvAnEQnIiD63T_QalAA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"pizza\",\r\n    \"description\":\"Rice , veg , papad\",\r\n    \"price\":399.9,\r\n    \"category\": {\r\n        \"id\":52,\r\n        \"name\": \"pizza\"\r\n    },\r\n    \"images\":[\"https://images.pexels.com/photos/1199957/pexels-photo-1199957.jpeg?auto=compress&cs=tinysrgb&w=600\"],\r\n    \"restaurantId\":2,\r\n    \"vegetarian\":true,\r\n    \"seasonal\":true,\r\n    \"ingredientsItems\":[\r\n    {\r\n        \"id\": 1,\r\n        \"name\": \"white souce\",\r\n        \"category\": {\r\n            \"id\": 3,\r\n            \"name\": \"souce\"\r\n        },\r\n        \"inStock\": true\r\n    },\r\n    {\r\n        \"id\": 2,\r\n        \"name\": \"white souce\",\r\n        \"category\": {\r\n            \"id\": 3,\r\n            \"name\": \"souce\"\r\n        },\r\n        \"inStock\": true\r\n    }\r\n]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/admin/food",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"admin",
+								"food"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "find food by restaurant id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDg1MzkyODksImV4cCI6MTc0OTQwMzI4OSwiZW1haWwiOiJyYWp1QGdtYWlsLmNvbSIsImF1dGhvcml0aWVzIjoiUk9MRV9SRVNUQVVSQU5UX09XTkVSIn0.PBX-wgI5-aoN2AIlVhCHPoU-i8GyuLMHeF0syEeUq_hf0PaiyyPq3FSYj2y_rvmepL9CvAnEQnIiD63T_QalAA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"Dosa\",\r\n    \"description\":\"Rice , sambar , papad\",\r\n    \"price\":399.9,\r\n    \"category\": {\r\n        \"id\": 3,\r\n        \"name\": \"souce\"\r\n    },\r\n    \"images\":[\"https://vismaifood.com/storage/app/uploads/public/8b4/19e/427/thumb__1200_0_0_0_auto.jpg\"],\r\n    \"restaurantId\":2,\r\n    \"vegetarian\":true,\r\n    \"seasonal\":true,\r\n    \"ingredientItems\":[\r\n    {\r\n        \"id\": 1,\r\n        \"name\": \"white souce\",\r\n        \"category\": {\r\n            \"id\": 3,\r\n            \"name\": \"souce\"\r\n        },\r\n        \"inStock\": true\r\n    },\r\n    {\r\n        \"id\": 2,\r\n        \"name\": \"white souce\",\r\n        \"category\": {\r\n            \"id\": 3,\r\n            \"name\": \"souce\"\r\n        },\r\n        \"inStock\": true\r\n    }\r\n]\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/food/restaurant/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"food",
+								"restaurant",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add to cart",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDg1MzkyODksImV4cCI6MTc0OTQwMzI4OSwiZW1haWwiOiJyYWp1QGdtYWlsLmNvbSIsImF1dGhvcml0aWVzIjoiUk9MRV9SRVNUQVVSQU5UX09XTkVSIn0.PBX-wgI5-aoN2AIlVhCHPoU-i8GyuLMHeF0syEeUq_hf0PaiyyPq3FSYj2y_rvmepL9CvAnEQnIiD63T_QalAA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"foodId\": 1,\r\n  \"quantity\": 1,\r\n  \"ingredients\": [\"cheese\", \"onions\"]\r\n}"
+						},
+						"url": {
+							"raw": "localhost:8080/api/cart/add",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"cart",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Order request",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDg4MDgzODUsImV4cCI6MTc0OTY3MjM4NSwiZW1haWwiOiJyYWp1QGdtYWlsLmNvbSIsImF1dGhvcml0aWVzIjoiTUVNQkVSIn0.qcTAyFjVlBATuvlBIj7zoEmqaD1axnZQdlFlLKZ0NYjPuSEIPkQWNOUGW_epLycLQCMhmCso3-2e8v2qOXnq6A",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/order/user",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"order",
+								"user"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Update data",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Successful PUT request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 201, 204]);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Add your name in the body\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/info?id=1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"info"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "1"
+						}
+					]
+				},
+				"description": "This is a PUT request and it is used to overwrite an existing piece of data. For instance, after you create an entity with a POST request, you may want to modify that later. You can do that using a PUT request. You typically identify the entity being updated by including an identifier in the URL (eg. `id=1`).\n\nA successful PUT request typically returns a `200 OK`, `201 Created`, or `204 No Content` response code."
+			},
+			"response": []
+		},
+		{
+			"name": "Delete data",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Successful DELETE request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 202, 204]);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/info?id=1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"info"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "1"
+						}
+					]
+				},
+				"description": "This is a DELETE request, and it is used to delete data that was previously created via a POST request. You typically identify the entity being updated by including an identifier in the URL (eg. `id=1`).\n\nA successful DELETE request typically returns a `200 OK`, `202 Accepted`, or `204 No Content` response code."
+			},
+			"response": []
+		},
+		{
+			"name": "get roles",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"fullName\":\"Raju Pandey\",\n    \"email\":\"raju@email.com\",\n    \"password\":\"12345\",\n    \"role\":\"ROLE_RESTAURANT_OWNER\"\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/auth/roles",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"auth",
+						"roles"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "id",
+			"value": "1"
+		},
+		{
+			"key": "base_url",
+			"value": "https://postman-rest-api-learner.glitch.me/"
+		}
+	]
+}
