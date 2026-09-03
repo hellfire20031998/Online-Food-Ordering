@@ -1,0 +1,21 @@
+# Render Blueprint — deploy with "New > Blueprint" in the Render dashboard.
+# The free Render Postgres expires after 30 days; for a permanent free DB,
+# use e.g. Neon (neon.tech) or Supabase and set SPRING_DATASOURCE_* manually.
+services:
+  - type: web
+    name: food-ordering-api
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /
+    envVars:
+      - key: JWT_SECRET
+        generateValue: true
+      - key: CORS_ALLOWED_ORIGINS
+        value: http://localhost:3000 # change to your Vercel URL after the first deploy
+      - key: SPRING_DATASOURCE_URL
+        sync: false # jdbc:postgresql://<host>/<db>?sslmode=require
+      - key: SPRING_DATASOURCE_USERNAME
+        sync: false
+      - key: SPRING_DATASOURCE_PASSWORD
+        sync: false
