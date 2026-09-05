@@ -7,3 +7,4 @@ HELP.md
 *.md
 .gitignore
 .gitattributes
+.env
