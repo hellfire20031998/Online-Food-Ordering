@@ -33,6 +33,8 @@ Configuration is environment-driven with local-dev fallbacks. For local use, cop
 | `TEAM_ADMIN_EMAIL` | *(empty)* | Email of the first `TEAM_ADMIN`; seeding is skipped when empty |
 | `TEAM_ADMIN_PASSWORD` | *(empty)* | Password of the first `TEAM_ADMIN`; seeding is skipped when empty |
 | `PLATFORM_DEFAULT_COMMISSION` | `10` | Initial platform commission (%); editable from the team console |
+| `SEED_DEMO_DATA` | `true` | Seed the 12 demo restaurants at startup (idempotent) |
+| `SEED_DEMO_PASSWORD` | `123` | Password of the seeded restaurant owner accounts |
 | `FRONTEND_URL` | `http://localhost:3000` | Public URL of the React app, used for links in emails |
 | `DATA_ENCRYPTION_KEY` | dev-only fallback | Current AES-256 key for bank account data (32+ random chars) |
 | `DATA_ENCRYPTION_PREVIOUS_KEYS` | *(empty)* | Comma-separated older keys kept readable during rotation |
@@ -70,6 +72,10 @@ Three tiers: customers, restaurant side, and the platform team.
 Ownership of restaurant resources is checked per restaurant on every `/api/admin/**` endpoint. The team console lives under `/api/team/**`; route access is granted to every team role and admin/manager-only actions are enforced with `@PreAuthorize`.
 
 The first `TEAM_ADMIN` is seeded at startup from `TEAM_ADMIN_EMAIL` / `TEAM_ADMIN_PASSWORD`. Blocked accounts are rejected at sign-in and on their next authenticated request. Suspended restaurants are hidden from public listings and cannot receive orders.
+
+### Demo data
+
+With `SEED_DEMO_DATA=true` (the default) the app seeds 12 sample restaurants from `src/main/resources/seed/demo-restaurants.json` at startup: owner accounts (`<slug>@foodiyapa.com`, password `SEED_DEMO_PASSWORD`, default `123`), addresses, contact details, Cloudinary photos, payout accounts, food categories, ingredient groups and 6 to 8 dishes each. Seeding is idempotent: a restaurant whose name already exists is skipped. Set `SEED_DEMO_DATA=false` once real data exists.
 
 ### Browsing and the cart without an account
 

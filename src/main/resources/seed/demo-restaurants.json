@@ -1,0 +1,307 @@
+{
+  "imageBase": "https://res.cloudinary.com/djis30fnh/image/upload/f_auto,q_auto,w_1400,c_limit/foodiyapa/seed/",
+  "ownerEmailDomain": "foodiyapa.com",
+  "restaurants": [
+    {
+      "name": "Spice Route Kitchen",
+      "description": "Slow-cooked North Indian classics from a family kitchen: dal makhani simmered overnight, tandoori breads pulled hot from the clay oven and gravies built on hand-ground masalas.",
+      "cuisineType": "North Indian",
+      "openingHours": "Mon-Sun : 11:00AM - 11:00PM",
+      "address": { "streetAddress": "14 Hauz Khas Village", "city": "Delhi", "state": "Delhi", "pincode": "110016", "country": "India" },
+      "contact": { "email": "hello@spiceroutekitchen.in", "mobile": "9811045210", "instagram": "https://instagram.com/spiceroutekitchen", "twitter": "" },
+      "images": ["int-colourful-indian", "food-indian-spread", "int-openings-2025"],
+      "owner": { "fullName": "Rohit Malhotra", "email": "spiceroutekitchen" },
+      "bankAccount": { "accountHolderName": "Spice Route Kitchen LLP", "accountNumber": "500100123456", "ifsc": "HDFC0000123", "bankName": "HDFC Bank", "upiId": "spiceroute@okhdfcbank" },
+      "categories": ["Starters", "Curries", "Breads & Rice", "Desserts"],
+      "ingredientGroups": [
+        { "name": "Spice level", "items": ["Mild", "Medium", "Hot"] },
+        { "name": "Add-ons", "items": ["Extra gravy", "Butter naan", "Raita", "Green salad"] }
+      ],
+      "foods": [
+        { "name": "Paneer Tikka", "description": "Cottage cheese marinated in yoghurt and spices, charred in the tandoor.", "price": 320, "category": "Starters", "vegetarian": true, "image": "food-indian-collage", "ingredients": ["Mild", "Medium", "Hot"] },
+        { "name": "Seekh Kebab", "description": "Minced lamb kebabs with ginger, coriander and roasted cumin.", "price": 380, "category": "Starters", "vegetarian": false, "image": "food-grilled-kebabs", "ingredients": ["Mild", "Medium", "Hot"] },
+        { "name": "Butter Chicken", "description": "Tandoori chicken folded into a silky tomato and butter gravy.", "price": 420, "category": "Curries", "vegetarian": false, "ingredients": ["Mild", "Medium", "Hot", "Extra gravy", "Butter naan"] },
+        { "name": "Dal Makhani", "description": "Black lentils and kidney beans slow-cooked overnight with cream.", "price": 280, "category": "Curries", "vegetarian": true, "ingredients": ["Extra gravy", "Butter naan"] },
+        { "name": "Palak Paneer", "description": "Fresh spinach puree with cubes of paneer and garlic tadka.", "price": 300, "category": "Curries", "vegetarian": true, "ingredients": ["Mild", "Medium", "Hot"] },
+        { "name": "Garlic Naan", "description": "Leavened bread with garlic and coriander, brushed with butter.", "price": 70, "category": "Breads & Rice", "vegetarian": true },
+        { "name": "Jeera Rice", "description": "Basmati rice tempered with cumin and ghee.", "price": 180, "category": "Breads & Rice", "vegetarian": true },
+        { "name": "Gulab Jamun", "description": "Two warm milk dumplings in cardamom syrup.", "price": 120, "category": "Desserts", "vegetarian": true }
+      ]
+    },
+    {
+      "name": "Angithi Rooftop Cafe",
+      "description": "Charcoal-grilled kebabs and Mughlai curries served under the open sky. Live grills, a wood-fired tandoor and a view over the old city.",
+      "cuisineType": "Mughlai, Kebabs",
+      "openingHours": "Mon-Sun : 12:00PM - 12:00AM",
+      "address": { "streetAddress": "3rd Floor, 22 Chandni Chowk Road", "city": "Delhi", "state": "Delhi", "pincode": "110006", "country": "India" },
+      "contact": { "email": "book@angithicafe.in", "mobile": "9899123300", "instagram": "https://instagram.com/angithirooftop", "twitter": "" },
+      "images": ["int-angithi-rooftop", "int-brick-green-bar", "food-grilled-kebabs"],
+      "owner": { "fullName": "Imran Qureshi", "email": "angithirooftopcafe" },
+      "bankAccount": { "accountHolderName": "Angithi Hospitality", "accountNumber": "917010045612", "ifsc": "UTIB0000456", "bankName": "Axis Bank", "upiId": "angithi@axisbank" },
+      "categories": ["Kebabs", "Curries", "Breads", "Drinks"],
+      "ingredientGroups": [
+        { "name": "Spice level", "items": ["Medium", "Hot", "Extra hot"] },
+        { "name": "Sides", "items": ["Mint chutney", "Onion rings", "Rumali roti"] }
+      ],
+      "foods": [
+        { "name": "Galouti Kebab", "description": "Melt-in-the-mouth minced mutton kebabs with 30 spices, served on ulte tawa parathas.", "price": 460, "category": "Kebabs", "vegetarian": false, "image": "food-grilled-kebabs", "ingredients": ["Medium", "Hot", "Mint chutney"] },
+        { "name": "Chicken Malai Tikka", "description": "Cream and cheese marinated chicken, grilled over charcoal.", "price": 390, "category": "Kebabs", "vegetarian": false, "ingredients": ["Medium", "Hot", "Extra hot", "Onion rings"] },
+        { "name": "Tandoori Mushroom", "description": "Button mushrooms stuffed with cheese and herbs.", "price": 310, "category": "Kebabs", "vegetarian": true },
+        { "name": "Mutton Rogan Josh", "description": "Kashmiri-style lamb curry with fennel and dry ginger.", "price": 520, "category": "Curries", "vegetarian": false, "ingredients": ["Medium", "Hot", "Rumali roti"] },
+        { "name": "Chicken Korma", "description": "Mild cashew and yoghurt gravy with tender chicken.", "price": 440, "category": "Curries", "vegetarian": false },
+        { "name": "Rumali Roti", "description": "Paper-thin handkerchief bread.", "price": 40, "category": "Breads", "vegetarian": true },
+        { "name": "Masala Chaas", "description": "Spiced buttermilk with roasted cumin.", "price": 90, "category": "Drinks", "vegetarian": true }
+      ]
+    },
+    {
+      "name": "Viraasat Courtyard",
+      "description": "Awadhi dining in a restored courtyard haveli. Dum-cooked biryanis, nihari that simmers for eight hours and sheermal baked to order.",
+      "cuisineType": "Awadhi",
+      "openingHours": "Mon-Sun : 12:30PM - 11:00PM",
+      "address": { "streetAddress": "Kaiserbagh Palace Road", "city": "Lucknow", "state": "Uttar Pradesh", "pincode": "226001", "country": "India" },
+      "contact": { "email": "reservations@viraasatcourtyard.in", "mobile": "9450112233", "instagram": "https://instagram.com/viraasatcourtyard", "twitter": "" },
+      "images": ["int-viraasat", "int-chandelier-trees", "food-biryani"],
+      "owner": { "fullName": "Nawab Ahmed Rizvi", "email": "viraasatcourtyard" },
+      "bankAccount": { "accountHolderName": "Viraasat Foods Pvt Ltd", "accountNumber": "3311020045678", "ifsc": "SBIN0001234", "bankName": "State Bank of India", "upiId": "viraasat@sbi" },
+      "categories": ["Biryani", "Kebabs", "Curries", "Sweets"],
+      "ingredientGroups": [
+        { "name": "Portion", "items": ["Half", "Full"] },
+        { "name": "Extras", "items": ["Extra raita", "Boiled egg", "Salan"] }
+      ],
+      "foods": [
+        { "name": "Lucknowi Mutton Biryani", "description": "Long-grain rice and mutton cooked on dum with kewra and saffron.", "price": 480, "category": "Biryani", "vegetarian": false, "image": "food-biryani", "ingredients": ["Half", "Full", "Extra raita", "Boiled egg"] },
+        { "name": "Chicken Dum Biryani", "description": "Aromatic dum biryani with tender chicken.", "price": 420, "category": "Biryani", "vegetarian": false, "ingredients": ["Half", "Full", "Extra raita"] },
+        { "name": "Subz Biryani", "description": "Seasonal vegetables and paneer in fragrant rice.", "price": 340, "category": "Biryani", "vegetarian": true, "ingredients": ["Half", "Full", "Extra raita"] },
+        { "name": "Kakori Kebab", "description": "Finely minced lamb kebabs, soft as silk.", "price": 450, "category": "Kebabs", "vegetarian": false },
+        { "name": "Nihari with Kulcha", "description": "Overnight-simmered lamb shank stew with fresh kulcha.", "price": 520, "category": "Curries", "vegetarian": false, "ingredients": ["Salan"] },
+        { "name": "Shahi Tukda", "description": "Fried bread soaked in saffron milk, topped with rabri.", "price": 160, "category": "Sweets", "vegetarian": true }
+      ]
+    },
+    {
+      "name": "Madras Tiffin House",
+      "description": "All-day South Indian tiffin: soft idlis, crisp ghee roast dosas, filter coffee poured from a height. Everything made fresh, nothing from a mix.",
+      "cuisineType": "South Indian",
+      "openingHours": "Mon-Sun : 7:00AM - 10:30PM",
+      "address": { "streetAddress": "45 Luz Church Road, Mylapore", "city": "Chennai", "state": "Tamil Nadu", "pincode": "600004", "country": "India" },
+      "contact": { "email": "hello@madrastiffinhouse.in", "mobile": "9840011223", "instagram": "https://instagram.com/madrastiffinhouse", "twitter": "" },
+      "images": ["int-vinai-1", "int-vinai-2", "food-idli"],
+      "owner": { "fullName": "Lakshmi Venkatesan", "email": "madrastiffinhouse" },
+      "bankAccount": { "accountHolderName": "Madras Tiffin House", "accountNumber": "0042010023456", "ifsc": "IOBA0000042", "bankName": "Indian Overseas Bank", "upiId": "madrastiffin@iob" },
+      "categories": ["Tiffin", "Dosas", "Rice", "Beverages"],
+      "ingredientGroups": [
+        { "name": "Chutneys", "items": ["Coconut", "Tomato", "Mint"] },
+        { "name": "Extras", "items": ["Extra sambar", "Podi", "Ghee"] }
+      ],
+      "foods": [
+        { "name": "Idli (4 pcs)", "description": "Steamed rice cakes with sambar and chutneys.", "price": 90, "category": "Tiffin", "vegetarian": true, "image": "food-idli", "ingredients": ["Coconut", "Tomato", "Mint", "Extra sambar", "Podi"] },
+        { "name": "Medu Vada (2 pcs)", "description": "Crisp urad dal fritters.", "price": 80, "category": "Tiffin", "vegetarian": true, "ingredients": ["Coconut", "Tomato"] },
+        { "name": "Pongal", "description": "Rice and moong dal porridge with pepper, cumin and ghee.", "price": 110, "category": "Tiffin", "vegetarian": true, "ingredients": ["Ghee", "Extra sambar"] },
+        { "name": "Ghee Roast Dosa", "description": "Golden, crisp dosa roasted in ghee.", "price": 130, "category": "Dosas", "vegetarian": true, "ingredients": ["Coconut", "Tomato", "Mint", "Podi"] },
+        { "name": "Masala Dosa", "description": "Dosa with spiced potato filling.", "price": 120, "category": "Dosas", "vegetarian": true, "ingredients": ["Coconut", "Tomato", "Mint"] },
+        { "name": "Curd Rice", "description": "Tempered yoghurt rice with pomegranate.", "price": 100, "category": "Rice", "vegetarian": true },
+        { "name": "Filter Coffee", "description": "Strong decoction with frothed milk, served in a dabara.", "price": 50, "category": "Beverages", "vegetarian": true }
+      ]
+    },
+    {
+      "name": "Coastal Catch",
+      "description": "Konkan and Malvani seafood by the sea: the morning's catch in coconut curries, rava-fried fish and prawn pulao, with sol kadhi to cool things down.",
+      "cuisineType": "Seafood, Coastal",
+      "openingHours": "Tue-Sun : 12:00PM - 11:30PM",
+      "address": { "streetAddress": "Juhu Tara Road", "city": "Mumbai", "state": "Maharashtra", "pincode": "400049", "country": "India" },
+      "contact": { "email": "reserve@coastalcatch.in", "mobile": "9820456700", "instagram": "https://instagram.com/coastalcatchmumbai", "twitter": "" },
+      "images": ["int-tropical-wood", "int-hotel-1", "food-fish-tacos"],
+      "owner": { "fullName": "Sanjay Naik", "email": "coastalcatch" },
+      "bankAccount": { "accountHolderName": "Coastal Catch Hospitality", "accountNumber": "60021012345678", "ifsc": "ICIC0000600", "bankName": "ICICI Bank", "upiId": "coastalcatch@icici" },
+      "categories": ["Starters", "Curries", "Rice & Breads", "Drinks"],
+      "ingredientGroups": [
+        { "name": "Spice level", "items": ["Mild", "Malvani hot"] },
+        { "name": "Sides", "items": ["Sol kadhi", "Neer dosa", "Steamed rice"] }
+      ],
+      "foods": [
+        { "name": "Rava Fried Surmai", "description": "Kingfish steaks crusted in semolina and Malvani masala.", "price": 520, "category": "Starters", "vegetarian": false, "ingredients": ["Mild", "Malvani hot"] },
+        { "name": "Butter Garlic Prawns", "description": "Tiger prawns tossed in butter, garlic and parsley.", "price": 560, "category": "Starters", "vegetarian": false },
+        { "name": "Fish Tacos", "description": "Crisp fish, slaw and lime crema in soft tortillas.", "price": 390, "category": "Starters", "vegetarian": false, "image": "food-fish-tacos" },
+        { "name": "Prawn Curry", "description": "Coconut and kokum prawn curry.", "price": 480, "category": "Curries", "vegetarian": false, "ingredients": ["Mild", "Malvani hot", "Neer dosa", "Steamed rice"] },
+        { "name": "Fish Thali", "description": "Fry, curry, rice, sol kadhi and chapati.", "price": 450, "category": "Curries", "vegetarian": false, "ingredients": ["Mild", "Malvani hot"] },
+        { "name": "Prawn Pulao", "description": "Fragrant rice with prawns and coconut.", "price": 420, "category": "Rice & Breads", "vegetarian": false },
+        { "name": "Sol Kadhi", "description": "Kokum and coconut milk digestive.", "price": 80, "category": "Drinks", "vegetarian": true }
+      ]
+    },
+    {
+      "name": "Bombay Chaat Corner",
+      "description": "Mumbai street food done properly: bhel puri mixed to order, pav bhaji on a giant tawa, vada pav with dry garlic chutney. Hygienic, fast and cheap.",
+      "cuisineType": "Street Food, Chaat",
+      "openingHours": "Mon-Sun : 10:00AM - 11:00PM",
+      "address": { "streetAddress": "Shop 7, Girgaum Chowpatty", "city": "Mumbai", "state": "Maharashtra", "pincode": "400007", "country": "India" },
+      "contact": { "email": "orders@bombaychaatcorner.in", "mobile": "9833001122", "instagram": "https://instagram.com/bombaychaatcorner", "twitter": "" },
+      "images": ["int-zomato", "food-bhelpuri", "int-blog"],
+      "owner": { "fullName": "Deepak Shah", "email": "bombaychaatcorner" },
+      "bankAccount": { "accountHolderName": "Deepak Shah", "accountNumber": "20012345678901", "ifsc": "KKBK0000700", "bankName": "Kotak Mahindra Bank", "upiId": "bombaychaat@kotak" },
+      "categories": ["Chaat", "Pav", "Rolls", "Drinks"],
+      "ingredientGroups": [
+        { "name": "Spice level", "items": ["Less spicy", "Medium", "Teekha"] },
+        { "name": "Toppings", "items": ["Extra sev", "Extra chutney", "Cheese"] }
+      ],
+      "foods": [
+        { "name": "Bhel Puri", "description": "Puffed rice, sev, onions and tangy chutneys.", "price": 80, "category": "Chaat", "vegetarian": true, "image": "food-bhelpuri", "ingredients": ["Less spicy", "Medium", "Teekha", "Extra sev", "Extra chutney"] },
+        { "name": "Sev Puri", "description": "Crisp puris topped with potato, chutneys and sev.", "price": 90, "category": "Chaat", "vegetarian": true, "ingredients": ["Extra sev", "Extra chutney"] },
+        { "name": "Dahi Puri", "description": "Puris filled with yoghurt, chutney and pomegranate.", "price": 100, "category": "Chaat", "vegetarian": true },
+        { "name": "Pav Bhaji", "description": "Buttery mashed vegetable curry with toasted pav.", "price": 140, "category": "Pav", "vegetarian": true, "ingredients": ["Less spicy", "Medium", "Teekha", "Cheese"] },
+        { "name": "Vada Pav", "description": "Spiced potato fritter in a bun with garlic chutney.", "price": 40, "category": "Pav", "vegetarian": true, "ingredients": ["Cheese"] },
+        { "name": "Frankie Roll", "description": "Paneer tikka roll with pickled onions.", "price": 150, "category": "Rolls", "vegetarian": true },
+        { "name": "Kala Khatta Gola", "description": "Crushed ice with blackcurrant syrup and masala.", "price": 60, "category": "Drinks", "vegetarian": true, "seasonal": true }
+      ]
+    },
+    {
+      "name": "Punjabi Dhaba 22",
+      "description": "Highway dhaba food in the city: sarson da saag with makki roti, tandoori chicken by the half, lassi in steel glasses and charpai seating if you want it.",
+      "cuisineType": "Punjabi",
+      "openingHours": "Mon-Sun : 11:00AM - 11:30PM",
+      "address": { "streetAddress": "SCO 22, Sector 26 Madhya Marg", "city": "Chandigarh", "state": "Chandigarh", "pincode": "160019", "country": "India" },
+      "contact": { "email": "dhaba22@punjabidhaba.in", "mobile": "9876500022", "instagram": "https://instagram.com/punjabidhaba22", "twitter": "" },
+      "images": ["int-google-place", "food-indian-collage", "misc-header-2"],
+      "owner": { "fullName": "Gurpreet Singh", "email": "punjabidhaba22" },
+      "bankAccount": { "accountHolderName": "Gurpreet Singh", "accountNumber": "651234567890", "ifsc": "PUNB0123400", "bankName": "Punjab National Bank", "upiId": "dhaba22@pnb" },
+      "categories": ["Tandoor", "Mains", "Breads", "Lassi & Drinks"],
+      "ingredientGroups": [
+        { "name": "Spice level", "items": ["Mild", "Medium", "Hot"] },
+        { "name": "Extras", "items": ["Extra butter", "Pickle", "Onion salad"] }
+      ],
+      "foods": [
+        { "name": "Tandoori Chicken (Half)", "description": "Marinated overnight and roasted in the clay oven.", "price": 360, "category": "Tandoor", "vegetarian": false, "ingredients": ["Mild", "Medium", "Hot", "Onion salad"] },
+        { "name": "Amritsari Kulcha", "description": "Stuffed kulcha with chole and butter.", "price": 160, "category": "Breads", "vegetarian": true, "ingredients": ["Extra butter", "Pickle"] },
+        { "name": "Sarson da Saag", "description": "Mustard greens with makki di roti and white butter.", "price": 260, "category": "Mains", "vegetarian": true, "seasonal": true, "ingredients": ["Extra butter"] },
+        { "name": "Kadhai Paneer", "description": "Paneer and peppers in a coarse kadhai masala.", "price": 300, "category": "Mains", "vegetarian": true, "ingredients": ["Mild", "Medium", "Hot"] },
+        { "name": "Chicken Curry Dhaba Style", "description": "Home-style chicken curry with whole spices.", "price": 380, "category": "Mains", "vegetarian": false, "ingredients": ["Mild", "Medium", "Hot"] },
+        { "name": "Tandoori Roti", "description": "Whole wheat roti from the tandoor.", "price": 25, "category": "Breads", "vegetarian": true },
+        { "name": "Sweet Lassi", "description": "Thick churned yoghurt with malai.", "price": 90, "category": "Lassi & Drinks", "vegetarian": true }
+      ]
+    },
+    {
+      "name": "Hosa Kitchen",
+      "description": "Modern Indian small plates and a serious cocktail list. Regional recipes reworked with local produce, in a bright room of timber and brass.",
+      "cuisineType": "Modern Indian",
+      "openingHours": "Mon-Sun : 12:00PM - 12:30AM",
+      "address": { "streetAddress": "12th Main Road, Indiranagar", "city": "Bengaluru", "state": "Karnataka", "pincode": "560038", "country": "India" },
+      "contact": { "email": "hello@hosakitchen.in", "mobile": "9900112244", "instagram": "https://instagram.com/hosakitchen", "twitter": "https://twitter.com/hosakitchen" },
+      "images": ["int-hosa", "int-two-india", "int-wood-slat-cafe", "food-world-collage"],
+      "owner": { "fullName": "Ananya Rao", "email": "hosakitchen" },
+      "bankAccount": { "accountHolderName": "Hosa Hospitality Pvt Ltd", "accountNumber": "50200012345678", "ifsc": "HDFC0000567", "bankName": "HDFC Bank", "upiId": "hosakitchen@okhdfcbank" },
+      "categories": ["Small Plates", "Large Plates", "Desserts", "Cocktails & Mocktails"],
+      "ingredientGroups": [
+        { "name": "Protein", "items": ["Paneer", "Chicken", "Prawn"] },
+        { "name": "Sides", "items": ["Neer dosa", "Ghee rice", "Papad"] }
+      ],
+      "foods": [
+        { "name": "Ghee Roast Chicken Wings", "description": "Mangalorean ghee roast masala on crispy wings.", "price": 380, "category": "Small Plates", "vegetarian": false },
+        { "name": "Beetroot Tikki Chaat", "description": "Beet and quinoa tikkis, yoghurt, tamarind, sev.", "price": 320, "category": "Small Plates", "vegetarian": true },
+        { "name": "Coorg Pandi Curry", "description": "Kodava-style pork with kachampuli vinegar.", "price": 560, "category": "Large Plates", "vegetarian": false, "ingredients": ["Neer dosa", "Ghee rice"] },
+        { "name": "Malabar Curry Bowl", "description": "Coconut curry with your choice of protein.", "price": 480, "category": "Large Plates", "vegetarian": false, "ingredients": ["Paneer", "Chicken", "Prawn", "Ghee rice", "Papad"] },
+        { "name": "Millet Khichdi", "description": "Foxtail millet with seasonal vegetables and ghee.", "price": 360, "category": "Large Plates", "vegetarian": true, "ingredients": ["Papad"] },
+        { "name": "Filter Coffee Tiramisu", "description": "South Indian coffee meets Italian dessert.", "price": 280, "category": "Desserts", "vegetarian": true },
+        { "name": "Kokum Spritz", "description": "Kokum, soda and mint, no alcohol.", "price": 220, "category": "Cocktails & Mocktails", "vegetarian": true }
+      ]
+    },
+    {
+      "name": "Bella Napoli",
+      "description": "Neapolitan pizza from a wood-fired oven, fresh pasta rolled daily and tiramisu the way nonna made it. A flowered terrace for long lunches.",
+      "cuisineType": "Italian",
+      "openingHours": "Mon-Sun : 12:00PM - 11:00PM",
+      "address": { "streetAddress": "North Main Road, Koregaon Park", "city": "Pune", "state": "Maharashtra", "pincode": "411001", "country": "India" },
+      "contact": { "email": "ciao@bellanapoli.in", "mobile": "9922334455", "instagram": "https://instagram.com/bellanapolipune", "twitter": "" },
+      "images": ["int-flower-terrace", "int-mediterranean-terrace", "food-italian-spread"],
+      "owner": { "fullName": "Marco D'Souza", "email": "bellanapoli" },
+      "bankAccount": { "accountHolderName": "Bella Napoli Foods", "accountNumber": "0123456789012", "ifsc": "YESB0000123", "bankName": "Yes Bank", "upiId": "bellanapoli@ybl" },
+      "categories": ["Antipasti", "Pizza", "Pasta", "Dolci"],
+      "ingredientGroups": [
+        { "name": "Pizza base", "items": ["Classic", "Thin crust", "Gluten free"] },
+        { "name": "Extra toppings", "items": ["Extra mozzarella", "Olives", "Jalapenos", "Mushrooms"] }
+      ],
+      "foods": [
+        { "name": "Bruschetta al Pomodoro", "description": "Grilled bread with tomatoes, basil and garlic.", "price": 260, "category": "Antipasti", "vegetarian": true },
+        { "name": "Margherita", "description": "San Marzano tomato, fior di latte, basil.", "price": 420, "category": "Pizza", "vegetarian": true, "ingredients": ["Classic", "Thin crust", "Gluten free", "Extra mozzarella", "Olives", "Jalapenos", "Mushrooms"] },
+        { "name": "Diavola", "description": "Spicy salami, chilli and mozzarella.", "price": 520, "category": "Pizza", "vegetarian": false, "ingredients": ["Classic", "Thin crust", "Extra mozzarella", "Olives", "Jalapenos"] },
+        { "name": "Spaghetti Pomodoro", "description": "Hand-rolled spaghetti in slow-cooked tomato sauce.", "price": 380, "category": "Pasta", "vegetarian": true, "image": "food-spaghetti" },
+        { "name": "Creamy Broccoli Pasta Bake", "description": "Baked rigatoni with broccoli, cream and parmesan.", "price": 410, "category": "Pasta", "vegetarian": true, "image": "food-pasta-bake" },
+        { "name": "Marry Me Chicken", "description": "Pan-seared chicken in sun-dried tomato cream, with pasta.", "price": 540, "category": "Pasta", "vegetarian": false, "image": "food-marry-me-chicken" },
+        { "name": "Tiramisu", "description": "Espresso-soaked savoiardi and mascarpone.", "price": 280, "category": "Dolci", "vegetarian": true }
+      ]
+    },
+    {
+      "name": "Taqueria del Sol",
+      "description": "Mexican street food with house-made corn tortillas: birria tacos with consomme, loaded nachos and slow-braised beef bowls. Salsas from mild to fiery.",
+      "cuisineType": "Mexican",
+      "openingHours": "Mon-Sun : 12:00PM - 11:30PM",
+      "address": { "streetAddress": "80 Feet Road, Koramangala 4th Block", "city": "Bengaluru", "state": "Karnataka", "pincode": "560034", "country": "India" },
+      "contact": { "email": "hola@taqueriadelsol.in", "mobile": "9008877665", "instagram": "https://instagram.com/taqueriadelsolblr", "twitter": "" },
+      "images": ["int-dark-bistro-bar", "food-birria-tacos", "food-mexican-skillet"],
+      "owner": { "fullName": "Carlos Fernandes", "email": "taqueriadelsol" },
+      "bankAccount": { "accountHolderName": "Del Sol Foods LLP", "accountNumber": "1234005678901", "ifsc": "CNRB0001234", "bankName": "Canara Bank", "upiId": "delsol@cnrb" },
+      "categories": ["Tacos", "Bowls & Burritos", "Sides", "Drinks"],
+      "ingredientGroups": [
+        { "name": "Salsa", "items": ["Pico de gallo", "Salsa verde", "Habanero"] },
+        { "name": "Add-ons", "items": ["Guacamole", "Sour cream", "Extra cheese", "Jalapenos"] }
+      ],
+      "foods": [
+        { "name": "Birria Tacos (3)", "description": "Slow-braised beef in crisp tortillas with consomme for dipping.", "price": 420, "category": "Tacos", "vegetarian": false, "image": "food-birria-tacos", "ingredients": ["Pico de gallo", "Salsa verde", "Habanero", "Guacamole", "Extra cheese"] },
+        { "name": "Chicken Tinga Tacos (3)", "description": "Smoky chipotle chicken with pickled onion.", "price": 360, "category": "Tacos", "vegetarian": false, "ingredients": ["Pico de gallo", "Salsa verde", "Habanero", "Sour cream"] },
+        { "name": "Roasted Cauliflower Tacos (3)", "description": "Charred cauliflower, black beans, lime crema.", "price": 320, "category": "Tacos", "vegetarian": true, "ingredients": ["Pico de gallo", "Salsa verde", "Guacamole"] },
+        { "name": "Mexican Beef & Rice Skillet", "description": "Spiced beef, rice, peppers and melted cheese.", "price": 460, "category": "Bowls & Burritos", "vegetarian": false, "image": "food-mexican-skillet", "ingredients": ["Sour cream", "Extra cheese", "Jalapenos"] },
+        { "name": "Veggie Burrito", "description": "Rice, beans, grilled vegetables and cheese in a flour tortilla.", "price": 340, "category": "Bowls & Burritos", "vegetarian": true, "ingredients": ["Guacamole", "Sour cream", "Jalapenos"] },
+        { "name": "Loaded Nachos", "description": "Corn chips, queso, beans, pico and jalapenos.", "price": 300, "category": "Sides", "vegetarian": true, "ingredients": ["Guacamole", "Extra cheese"] },
+        { "name": "Horchata", "description": "Cinnamon rice milk, served chilled.", "price": 140, "category": "Drinks", "vegetarian": true }
+      ]
+    },
+    {
+      "name": "The Burger Yard",
+      "description": "Smashed patties on brioche, hand-cut fries and shakes thick enough to stand a spoon in. Brick walls, loud music, no reservations.",
+      "cuisineType": "American, Fast Food",
+      "openingHours": "Mon-Sun : 11:30AM - 1:00AM",
+      "address": { "streetAddress": "Road No. 36, Jubilee Hills", "city": "Hyderabad", "state": "Telangana", "pincode": "500033", "country": "India" },
+      "contact": { "email": "eat@theburgeryard.in", "mobile": "9000123456", "instagram": "https://instagram.com/theburgeryard", "twitter": "https://twitter.com/theburgeryard" },
+      "images": ["int-brick-loft", "food-fast-food", "food-corndogs", "food-cowboy-pie"],
+      "owner": { "fullName": "Arjun Reddy", "email": "theburgeryard" },
+      "bankAccount": { "accountHolderName": "Burger Yard Foods Pvt Ltd", "accountNumber": "9876543210123", "ifsc": "INDB0000123", "bankName": "IndusInd Bank", "upiId": "burgeryard@indus" },
+      "categories": ["Burgers", "Sides", "Shakes", "Desserts"],
+      "ingredientGroups": [
+        { "name": "Patty", "items": ["Single", "Double"] },
+        { "name": "Extras", "items": ["Cheese", "Bacon", "Fried egg", "Jalapenos", "Extra sauce"] }
+      ],
+      "foods": [
+        { "name": "Classic Smash Burger", "description": "Smashed beef patty, American cheese, pickles, house sauce.", "price": 320, "category": "Burgers", "vegetarian": false, "image": "food-fast-food", "ingredients": ["Single", "Double", "Cheese", "Bacon", "Fried egg", "Jalapenos", "Extra sauce"] },
+        { "name": "Crispy Chicken Burger", "description": "Buttermilk fried chicken, slaw and hot honey.", "price": 300, "category": "Burgers", "vegetarian": false, "ingredients": ["Cheese", "Jalapenos", "Extra sauce"] },
+        { "name": "Paneer Bhurji Burger", "description": "Spiced paneer scramble with mint mayo.", "price": 260, "category": "Burgers", "vegetarian": true, "ingredients": ["Cheese", "Jalapenos"] },
+        { "name": "Corn Dogs (2)", "description": "Sausages in cornmeal batter with mustard.", "price": 240, "category": "Sides", "vegetarian": false, "image": "food-corndogs" },
+        { "name": "Cowboy Pie", "description": "Beef, beans and cheese under a golden pastry lid.", "price": 380, "category": "Sides", "vegetarian": false, "image": "food-cowboy-pie" },
+        { "name": "Hand-cut Fries", "description": "Twice-cooked, skin-on, sea salt.", "price": 140, "category": "Sides", "vegetarian": true, "ingredients": ["Cheese", "Extra sauce"] },
+        { "name": "Oreo Shake", "description": "Vanilla ice cream blended with cookies.", "price": 220, "category": "Shakes", "vegetarian": true },
+        { "name": "Brownie Sundae", "description": "Warm brownie, ice cream, hot fudge.", "price": 240, "category": "Desserts", "vegetarian": true }
+      ]
+    },
+    {
+      "name": "Green Bowl",
+      "description": "Plant-based bowls, hearty chilis and smoothies made from whole ingredients. High protein, no refined sugar, everything labelled with what's in it.",
+      "cuisineType": "Vegan, Healthy",
+      "openingHours": "Mon-Sat : 8:00AM - 10:00PM",
+      "address": { "streetAddress": "Lane 6, Kalyani Nagar", "city": "Pune", "state": "Maharashtra", "pincode": "411006", "country": "India" },
+      "contact": { "email": "hi@greenbowl.in", "mobile": "9970011223", "instagram": "https://instagram.com/greenbowlpune", "twitter": "" },
+      "images": ["int-industrial-plants", "food-lentil-chili", "food-asian-table", "int-hotel-2"],
+      "owner": { "fullName": "Priya Nair", "email": "greenbowl" },
+      "bankAccount": { "accountHolderName": "Green Bowl Foods", "accountNumber": "2345678901234", "ifsc": "FDRL0001234", "bankName": "Federal Bank", "upiId": "greenbowl@fbl" },
+      "categories": ["Bowls", "Soups & Chili", "Smoothies", "Breakfast"],
+      "ingredientGroups": [
+        { "name": "Base", "items": ["Brown rice", "Quinoa", "Mixed greens"] },
+        { "name": "Boosters", "items": ["Tofu", "Avocado", "Hemp seeds", "Tahini dressing"] }
+      ],
+      "foods": [
+        { "name": "Buddha Bowl", "description": "Roasted vegetables, chickpeas, pickled cabbage and tahini.", "price": 340, "category": "Bowls", "vegetarian": true, "ingredients": ["Brown rice", "Quinoa", "Mixed greens", "Tofu", "Avocado", "Hemp seeds", "Tahini dressing"] },
+        { "name": "Peanut Noodle Bowl", "description": "Rice noodles, crunchy vegetables and peanut sauce.", "price": 320, "category": "Bowls", "vegetarian": true, "image": "food-asian-table", "ingredients": ["Tofu", "Avocado"] },
+        { "name": "Lentil & Black Bean Chili", "description": "Smoky one-pot chili, high in protein and fibre.", "price": 300, "category": "Soups & Chili", "vegetarian": true, "image": "food-lentil-chili", "ingredients": ["Brown rice", "Quinoa", "Avocado"] },
+        { "name": "Coconut Pumpkin Soup", "description": "Roasted pumpkin, coconut milk and toasted seeds.", "price": 220, "category": "Soups & Chili", "vegetarian": true, "seasonal": true },
+        { "name": "Berry Protein Smoothie", "description": "Mixed berries, oats, pea protein and almond milk.", "price": 260, "category": "Smoothies", "vegetarian": true, "ingredients": ["Hemp seeds"] },
+        { "name": "Avocado Toast", "description": "Sourdough, smashed avocado, chilli flakes and lime.", "price": 280, "category": "Breakfast", "vegetarian": true },
+        { "name": "Overnight Oats", "description": "Oats soaked in almond milk with chia and seasonal fruit.", "price": 200, "category": "Breakfast", "vegetarian": true }
+      ]
+    }
+  ]
+}
