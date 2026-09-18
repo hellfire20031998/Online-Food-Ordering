@@ -1,9 +1,11 @@
 package com.hellfire.service;
 
+import com.hellfire.cart.dto.CartMergeResponse;
 import com.hellfire.model.Cart;
 import com.hellfire.model.CartItem;
 import com.hellfire.model.User;
 import com.hellfire.request.AddCartItemRequest;
+import com.hellfire.request.CartMergeRequest;
 
 import java.math.BigDecimal;
 
@@ -22,4 +24,7 @@ public interface CartService {
     Cart findCartByUserId(Long userId) throws Exception;
 
     Cart clearCart(Long userId) throws Exception;
+
+    /** Carries a visitor's pre-login cart into the account's cart. */
+    CartMergeResponse mergeGuestItems(CartMergeRequest request, User user) throws Exception;
 }

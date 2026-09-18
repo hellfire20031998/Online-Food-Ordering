@@ -71,6 +71,10 @@ Ownership of restaurant resources is checked per restaurant on every `/api/admin
 
 The first `TEAM_ADMIN` is seeded at startup from `TEAM_ADMIN_EMAIL` / `TEAM_ADMIN_PASSWORD`. Blocked accounts are rejected at sign-in and on their next authenticated request. Suspended restaurants are hidden from public listings and cannot receive orders.
 
+### Browsing and the cart without an account
+
+Restaurant listings, search, menus and categories are public. Visitors build a cart in the browser (kept for 7 days) and are asked to sign in only when placing the order. On sign-in the browser cart is carried into the account cart with `POST /api/cart/merge` (`MERGE`, `REPLACE` or `KEEP_SERVER`); items that are gone, unavailable or from another restaurant are reported as skipped. A cart holds one restaurant at a time: adding from another restaurant returns 409 unless the request sets `replaceCart: true`.
+
 ### Restaurant onboarding
 
 1. A signed-in customer applies at `POST /api/restaurant-applications` (restaurant details, contact, photos, payout bank account). `GET .../me` shows their applications; `PUT .../{id}/withdraw` withdraws a pending one.

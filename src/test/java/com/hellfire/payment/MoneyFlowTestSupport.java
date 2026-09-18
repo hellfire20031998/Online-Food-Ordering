@@ -15,7 +15,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /** Shared fixtures for the payment / refund / payout flow tests. */
-abstract class MoneyFlowTestSupport {
+public abstract class MoneyFlowTestSupport {
 
     @Autowired protected JwtProvider jwtProvider;
     @Autowired protected PasswordEncoder passwordEncoder;

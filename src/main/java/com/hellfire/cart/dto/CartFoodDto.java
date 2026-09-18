@@ -7,16 +7,16 @@ import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 import java.util.List;
 
+/** The bits of a dish the cart UI needs, without exposing the full Food/Restaurant entities. */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CartDto {
+public class CartFoodDto {
 
     private Long id;
-    private Long customerId;
-    private BigDecimal total;
-    /** A cart holds items from one restaurant; null when empty. */
+    private String name;
+    private BigDecimal price;
+    private List<String> images;
     private Long restaurantId;
     private String restaurantName;
-    private List<CartItemDto> items;
 }

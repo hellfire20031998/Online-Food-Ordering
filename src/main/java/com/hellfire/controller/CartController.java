@@ -2,9 +2,11 @@ package com.hellfire.controller;
 
 import com.hellfire.cart.dto.CartDto;
 import com.hellfire.cart.dto.CartItemDto;
+import com.hellfire.cart.dto.CartMergeResponse;
 import com.hellfire.cart.mapper.CartMapper;
 import com.hellfire.model.User;
 import com.hellfire.request.AddCartItemRequest;
+import com.hellfire.request.CartMergeRequest;
 import com.hellfire.request.UpdateCartItemRequest;
 import com.hellfire.service.CartService;
 import com.hellfire.service.UserService;
@@ -54,5 +56,13 @@ public class CartController {
     public ResponseEntity<CartDto> findUserCart(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) throws Exception {
         User user = userService.findUserByJwtToken(token);
         return ResponseEntity.ok(CartMapper.toDto(cartService.findCartByUserId(user.getId())));
+    }
+
+    /** Carries the items a visitor collected before signing in into their account cart. */
+    @PostMapping("/cart/merge")
+    public ResponseEntity<CartMergeResponse> mergeGuestCart(@Valid @RequestBody CartMergeRequest request,
+                                                            @RequestHeader(HttpHeaders.AUTHORIZATION) String token) throws Exception {
+        User user = userService.findUserByJwtToken(token);
+        return ResponseEntity.ok(cartService.mergeGuestItems(request, user));
     }
 }

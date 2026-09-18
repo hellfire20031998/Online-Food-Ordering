@@ -16,4 +16,11 @@ public class AddCartItemRequest {
     private int quantity;
 
     private List<String> ingredients;
+
+    /**
+     * A cart holds items from one restaurant. When this dish belongs to a different restaurant the
+     * request is refused with 409 unless {@code replaceCart} is true, in which case the cart is
+     * emptied first.
+     */
+    private boolean replaceCart;
 }

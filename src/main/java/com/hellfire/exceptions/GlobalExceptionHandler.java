@@ -38,8 +38,8 @@ public class GlobalExceptionHandler {
         return build(HttpStatus.UNAUTHORIZED, "Invalid email or password", request);
     }
 
-    @ExceptionHandler(EmailAlreadyRegisteredException.class)
-    public ResponseEntity<ErrorResponse> handleDuplicateEmail(EmailAlreadyRegisteredException ex, WebRequest request) {
+    @ExceptionHandler({EmailAlreadyRegisteredException.class, CartConflictException.class})
+    public ResponseEntity<ErrorResponse> handleConflict(RuntimeException ex, WebRequest request) {
         return build(HttpStatus.CONFLICT, ex.getMessage(), request);
     }
 
