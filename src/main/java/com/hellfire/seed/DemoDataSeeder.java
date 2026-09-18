@@ -12,7 +12,8 @@ import org.springframework.core.annotation.Order;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import java.io.InputStream;
 import java.math.BigDecimal;
@@ -42,6 +43,7 @@ public class DemoDataSeeder implements ApplicationRunner {
     private final FoodRepository foodRepository;
     private final PasswordEncoder passwordEncoder;
     private final ObjectMapper objectMapper;
+    private final TransactionTemplate transactionTemplate;
     private final boolean enabled;
     private final String demoPassword;
 
@@ -55,6 +57,7 @@ public class DemoDataSeeder implements ApplicationRunner {
                           FoodRepository foodRepository,
                           PasswordEncoder passwordEncoder,
                           ObjectMapper objectMapper,
+                          PlatformTransactionManager transactionManager,
                           @Value("${app.seed.demo:false}") boolean enabled,
                           @Value("${app.seed.demo-password:123}") String demoPassword) {
         this.userRepository = userRepository;
@@ -67,6 +70,7 @@ public class DemoDataSeeder implements ApplicationRunner {
         this.foodRepository = foodRepository;
         this.passwordEncoder = passwordEncoder;
         this.objectMapper = objectMapper;
+        this.transactionTemplate = new TransactionTemplate(transactionManager);
         this.enabled = enabled;
         this.demoPassword = demoPassword;
     }
@@ -81,8 +85,11 @@ public class DemoDataSeeder implements ApplicationRunner {
         log.info("Demo data seeding finished: {} restaurant(s) created", created);
     }
 
-    /** Seeds every restaurant in the file that does not exist yet. Returns how many were created. */
-    @Transactional
+    /**
+     * Seeds every restaurant in the file that does not exist yet. Each restaurant is written in its
+     * own transaction (explicitly, since a self-invoked @Transactional would be bypassed), so a
+     * failure leaves no half-seeded restaurant behind. Returns how many were created.
+     */
     public int seedAll() throws Exception {
         SeedFile file;
         try (InputStream in = new ClassPathResource(SEED_FILE).getInputStream()) {
@@ -90,11 +97,16 @@ public class DemoDataSeeder implements ApplicationRunner {
         }
         int created = 0;
         for (SeedRestaurant seed : file.restaurants()) {
-            if (restaurantRepository.existsByNameIgnoreCase(seed.name())) {
-                continue;
+            Boolean didCreate = transactionTemplate.execute(status -> {
+                if (restaurantRepository.existsByNameIgnoreCase(seed.name())) {
+                    return false;
+                }
+                seedRestaurant(file, seed);
+                return true;
+            });
+            if (Boolean.TRUE.equals(didCreate)) {
+                created++;
             }
-            seedRestaurant(file, seed);
-            created++;
         }
         return created;
     }
