@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +34,12 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
+    /** Platform-level account status; null (legacy rows) is treated as ACTIVE. */
+    @Enumerated(EnumType.STRING)
+    private UserStatus status = UserStatus.ACTIVE;
+
+    private LocalDateTime createdAt;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
     @JsonIgnore
     private List<Order> orders = new ArrayList<>();
@@ -46,4 +53,8 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<RestaurantRole> restaurantRoles = new ArrayList<>();
+
+    public boolean isBlocked() {
+        return status == UserStatus.BLOCKED;
+    }
 }

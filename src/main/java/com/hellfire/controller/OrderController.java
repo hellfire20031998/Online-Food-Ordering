@@ -29,13 +29,16 @@ public class OrderController {
                                                 @RequestHeader(HttpHeaders.AUTHORIZATION) String token) throws Exception {
         User user = userService.findUserByJwtToken(token);
         Order order = orderService.createOrder(orderRequest, user);
-        return new ResponseEntity<>(OrderMapper.toDto(order), HttpStatus.CREATED);
+        // The paying customer gets the client secret so the browser can complete an online payment.
+        return new ResponseEntity<>(OrderMapper.toDto(order, true), HttpStatus.CREATED);
     }
 
     @GetMapping("/order/user")
     public ResponseEntity<List<OrderDto>> getOrderHistory(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) throws Exception {
         User user = userService.findUserByJwtToken(token);
-        List<OrderDto> orders = OrderMapper.toDtos(orderService.getUsersOrder(user.getId()));
+        List<OrderDto> orders = orderService.getUsersOrder(user.getId()).stream()
+                .map(order -> OrderMapper.toDto(order, true))
+                .toList();
         return new ResponseEntity<>(orders, HttpStatus.OK);
     }
 

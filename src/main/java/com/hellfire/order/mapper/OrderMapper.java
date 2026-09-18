@@ -5,6 +5,7 @@ import com.hellfire.model.Order;
 import com.hellfire.model.OrderItem;
 import com.hellfire.order.dto.OrderDto;
 import com.hellfire.order.dto.OrderItemDto;
+import com.hellfire.payment.PaymentMapper;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,11 +13,17 @@ import java.util.stream.Collectors;
 public class OrderMapper {
 
     public static OrderDto toDto(Order order) {
+        return toDto(order, false);
+    }
+
+    /** @param forCustomer include the gateway client secret (only ever sent to the paying customer). */
+    public static OrderDto toDto(Order order, boolean forCustomer) {
         if (order == null) {
             return null;
         }
 
         OrderDto dto = new OrderDto();
+        dto.setPayment(PaymentMapper.toDto(order.getPayment(), forCustomer));
         dto.setId(order.getId());
         dto.setCustomerId(order.getCustomer() != null ? order.getCustomer().getId() : null);
         dto.setRestaurantId(order.getRestaurant() != null ? order.getRestaurant().getId() : null);

@@ -1,5 +1,6 @@
 package com.hellfire.service;
 
+import com.hellfire.exceptions.AccountBlockedException;
 import com.hellfire.model.User;
 import com.hellfire.model.UserRole;
 import com.hellfire.repository.UserRepository;
@@ -18,6 +19,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CustomerUserDetailsService implements UserDetailsService {
 
+    public static final String BLOCKED_MESSAGE = "Your account has been blocked. Please contact support.";
+
     private final UserRepository userRepository;
 
     @Override
@@ -25,6 +28,9 @@ public class CustomerUserDetailsService implements UserDetailsService {
         User user = userRepository.findByEmail(username);
         if (user == null) {
             throw new UsernameNotFoundException("User not found with email " + username);
+        }
+        if (user.isBlocked()) {
+            throw new AccountBlockedException(BLOCKED_MESSAGE);
         }
 
         UserRole role = user.getRole() == null ? UserRole.CUSTOMER : user.getRole();

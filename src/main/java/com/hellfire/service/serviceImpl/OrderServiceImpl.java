@@ -4,6 +4,7 @@ import com.hellfire.exceptions.NotAuthorizedException;
 import com.hellfire.exceptions.OrderNotFoundException;
 import com.hellfire.exceptions.OrderStatusException;
 import com.hellfire.model.*;
+import com.hellfire.payment.service.PaymentService;
 import com.hellfire.repository.AddressRepository;
 import com.hellfire.repository.OrderItemRepository;
 import com.hellfire.repository.OrderRepository;
@@ -20,22 +21,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
-
-    public static final String STATUS_PENDING = "PENDING";
-    public static final String STATUS_OUT_FOR_DELIVERY = "OUT_FOR_DELIVERY";
-    public static final String STATUS_DELIVERED = "DELIVERED";
-    public static final String STATUS_COMPLETED = "COMPLETED";
-    public static final String STATUS_CANCELLED = "CANCELLED";
-
-    private static final Set<String> VALID_STATUSES = Set.of(
-            STATUS_PENDING, STATUS_OUT_FOR_DELIVERY, STATUS_DELIVERED, STATUS_COMPLETED, STATUS_CANCELLED
-    );
 
     private final OrderRepository orderRepository;
     private final OrderItemRepository orderItemRepository;
@@ -43,12 +33,21 @@ public class OrderServiceImpl implements OrderService {
     private final UserRepository userRepository;
     private final RestaurantService restaurantService;
     private final CartService cartService;
+    private final PaymentService paymentService;
 
+    /**
+     * Creates the order and its payment. Cash on delivery goes straight to PENDING and empties the
+     * cart; online payment leaves the order in PAYMENT_PENDING (hidden from the restaurant) until
+     * the gateway confirms, and the cart is cleared only then.
+     */
     @Override
     @Transactional
     public Order createOrder(OrderRequest request, User user) throws Exception {
         PaymentMethods paymentMethod = PaymentMethods.fromString(request.getPaymentMethod());
         Restaurant restaurant = restaurantService.findRestaurantById(request.getRestaurantId());
+        if (restaurant.isSuspended()) {
+            throw new IllegalArgumentException("This restaurant is currently unavailable");
+        }
 
         Cart cart = cartService.findCartByUserId(user.getId());
         if (cart.getItems().isEmpty()) {
@@ -56,13 +55,14 @@ public class OrderServiceImpl implements OrderService {
         }
 
         Address address = resolveDeliveryAddress(request.getDeliveryAddress(), user);
+        boolean cashOnDelivery = paymentMethod == PaymentMethods.CASH_ON_DELIVERY;
 
         Order order = new Order();
         order.setRestaurant(restaurant);
         order.setCustomer(user);
         order.setDeliveryAddress(address);
         order.setCreatedAt(new Date());
-        order.setOrderStatus(STATUS_PENDING);
+        order.setOrderStatus(cashOnDelivery ? OrderStatus.PENDING : OrderStatus.PAYMENT_PENDING);
         order.setPaymentMethod(paymentMethod);
 
         List<OrderItem> orderItems = new ArrayList<>();
@@ -83,21 +83,34 @@ public class OrderServiceImpl implements OrderService {
         order.setTotalAmount(order.getTotalPrice());
 
         Order savedOrder = orderRepository.save(order);
+        savedOrder.setPayment(paymentService.createForOrder(savedOrder, paymentMethod));
 
-        cartService.clearCart(user.getId());
-
+        if (cashOnDelivery) {
+            cartService.clearCart(user.getId());
+        }
         return savedOrder;
     }
 
+    /** Restaurant-side status changes. Payment states belong to the payment system. */
     @Override
     @Transactional
-    public Order updateOrder(Long orderId, String orderStatus) throws Exception {
-        if (orderStatus == null || !VALID_STATUSES.contains(orderStatus)) {
+    public Order updateOrder(Long orderId, OrderStatus orderStatus) throws Exception {
+        if (orderStatus == null) {
             throw new OrderStatusException("Please choose a valid order status");
         }
+        if (orderStatus.isPaymentState()) {
+            throw new OrderStatusException("Payment states are managed by the payment system");
+        }
         Order order = findOrderById(orderId);
+        if (order.getOrderStatus() != null && order.getOrderStatus().isPaymentState()) {
+            throw new OrderStatusException("This order is still awaiting payment");
+        }
         order.setOrderStatus(orderStatus);
-        return orderRepository.save(order);
+        Order saved = orderRepository.save(order);
+        if (orderStatus.isFulfilled()) {
+            paymentService.onOrderFulfilled(saved);
+        }
+        return saved;
     }
 
     @Override
@@ -114,12 +127,18 @@ public class OrderServiceImpl implements OrderService {
         if (!isCustomer && !isRestaurantOwner) {
             throw new NotAuthorizedException("You are not allowed to cancel this order");
         }
-        if (STATUS_DELIVERED.equals(order.getOrderStatus()) || STATUS_COMPLETED.equals(order.getOrderStatus())) {
-            throw new OrderStatusException("A " + order.getOrderStatus().toLowerCase() + " order cannot be cancelled");
+        if (order.getOrderStatus() == OrderStatus.CANCELLED) {
+            throw new OrderStatusException("This order is already cancelled");
+        }
+        if (order.getOrderStatus() != null && order.getOrderStatus().isFulfilled()) {
+            throw new OrderStatusException(
+                    "A " + order.getOrderStatus().name().toLowerCase() + " order cannot be cancelled");
         }
 
-        order.setOrderStatus(STATUS_CANCELLED);
-        return orderRepository.save(order);
+        order.setOrderStatus(OrderStatus.CANCELLED);
+        Order saved = orderRepository.save(order);
+        paymentService.onOrderCancelled(saved, user.getEmail(), isCustomer);
+        return saved;
     }
 
     @Override
@@ -127,15 +146,18 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.findByCustomerId(userId);
     }
 
+    /** Restaurant view: unpaid online orders are hidden unless that status is asked for explicitly. */
     @Override
-    public List<Order> getRestaurantOrder(Long restaurantId, String status) {
+    public List<Order> getRestaurantOrder(Long restaurantId, OrderStatus status) {
         List<Order> orders = orderRepository.findByRestaurantId(restaurantId);
-        if (status != null && !status.isBlank()) {
-            orders = orders.stream()
-                    .filter(order -> status.equals(order.getOrderStatus()))
+        if (status != null) {
+            return orders.stream()
+                    .filter(order -> status == order.getOrderStatus())
                     .collect(Collectors.toList());
         }
-        return orders;
+        return orders.stream()
+                .filter(order -> order.getOrderStatus() == null || !order.getOrderStatus().isPaymentState())
+                .collect(Collectors.toList());
     }
 
     @Override

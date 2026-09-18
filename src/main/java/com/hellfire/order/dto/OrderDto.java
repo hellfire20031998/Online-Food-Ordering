@@ -1,6 +1,8 @@
 package com.hellfire.order.dto;
 
+import com.hellfire.model.OrderStatus;
 import com.hellfire.model.PaymentMethods;
+import com.hellfire.payment.dto.PaymentDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,11 +20,12 @@ public class OrderDto {
     private Long customerId;
     private Long restaurantId;
     private BigDecimal totalAmount;
-    private String orderStatus;
+    private OrderStatus orderStatus;
     private Date createdAt;
     private Long deliveryAddressId;
     private List<OrderItemDto> items;
     private Long totalItems;
     private BigDecimal totalPrice;
     private PaymentMethods paymentMethod;
+    private PaymentDto payment;
 }

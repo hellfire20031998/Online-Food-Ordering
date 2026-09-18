@@ -3,6 +3,7 @@ package com.hellfire.service.serviceImpl;
 import com.hellfire.exceptions.NotAuthorizedException;
 import com.hellfire.exceptions.OrderStatusException;
 import com.hellfire.model.*;
+import com.hellfire.payment.service.PaymentService;
 import com.hellfire.repository.AddressRepository;
 import com.hellfire.repository.OrderItemRepository;
 import com.hellfire.repository.OrderRepository;
@@ -41,6 +42,8 @@ class OrderServiceImplTest {
     private RestaurantService restaurantService;
     @Mock
     private CartService cartService;
+    @Mock
+    private PaymentService paymentService;
 
     @InjectMocks
     private OrderServiceImpl orderService;
@@ -95,15 +98,68 @@ class OrderServiceImplTest {
         when(addressRepository.save(any(Address.class))).thenAnswer(inv -> inv.getArgument(0));
         when(orderItemRepository.save(any(OrderItem.class))).thenAnswer(inv -> inv.getArgument(0));
         when(orderRepository.save(any(Order.class))).thenAnswer(inv -> inv.getArgument(0));
+        stubPaymentCreation();
 
         Order order = orderService.createOrder(request, customer);
 
         assertEquals(0, new BigDecimal("100.00").compareTo(order.getTotalPrice()));
         assertEquals(0, new BigDecimal("100.00").compareTo(order.getTotalAmount()));
         assertEquals(1L, order.getTotalItems());
-        assertEquals(OrderServiceImpl.STATUS_PENDING, order.getOrderStatus());
+        assertEquals(OrderStatus.PENDING, order.getOrderStatus());
         assertEquals(PaymentMethods.CASH_ON_DELIVERY, order.getPaymentMethod());
+        assertNotNull(order.getPayment());
+        verify(paymentService).createForOrder(order, PaymentMethods.CASH_ON_DELIVERY);
         verify(cartService).clearCart(1L);
+    }
+
+    @Test
+    void onlineOrderAwaitsPaymentAndKeepsCart() throws Exception {
+        request.setPaymentMethod("UPI");
+        when(restaurantService.findRestaurantById(5L)).thenReturn(restaurant);
+        when(cartService.findCartByUserId(1L)).thenReturn(cart);
+        when(cartService.calCartTotal(cart)).thenReturn(new BigDecimal("100.00"));
+        when(addressRepository.save(any(Address.class))).thenAnswer(inv -> inv.getArgument(0));
+        when(orderItemRepository.save(any(OrderItem.class))).thenAnswer(inv -> inv.getArgument(0));
+        when(orderRepository.save(any(Order.class))).thenAnswer(inv -> inv.getArgument(0));
+        stubPaymentCreation();
+
+        Order order = orderService.createOrder(request, customer);
+
+        assertEquals(OrderStatus.PAYMENT_PENDING, order.getOrderStatus());
+        verify(paymentService).createForOrder(order, PaymentMethods.UPI);
+        verify(cartService, never()).clearCart(anyLong());
+    }
+
+    @Test
+    void restaurantCannotSetPaymentStatesOrTouchUnpaidOrders() {
+        assertThrows(OrderStatusException.class, () -> orderService.updateOrder(9L, OrderStatus.PAYMENT_FAILED));
+
+        Order unpaid = pendingOrder();
+        unpaid.setOrderStatus(OrderStatus.PAYMENT_PENDING);
+        when(orderRepository.findById(9L)).thenReturn(Optional.of(unpaid));
+        assertThrows(OrderStatusException.class, () -> orderService.updateOrder(9L, OrderStatus.OUT_FOR_DELIVERY));
+        verify(orderRepository, never()).save(any());
+    }
+
+    @Test
+    void deliveringAnOrderSettlesCashOnDelivery() throws Exception {
+        Order order = pendingOrder();
+        when(orderRepository.findById(9L)).thenReturn(Optional.of(order));
+        when(orderRepository.save(any(Order.class))).thenAnswer(inv -> inv.getArgument(0));
+
+        orderService.updateOrder(9L, OrderStatus.DELIVERED);
+
+        verify(paymentService).onOrderFulfilled(order);
+    }
+
+    private void stubPaymentCreation() {
+        when(paymentService.createForOrder(any(Order.class), any(PaymentMethods.class))).thenAnswer(inv -> {
+            Payment payment = new Payment();
+            payment.setOrder(inv.getArgument(0));
+            payment.setMethod(inv.getArgument(1));
+            payment.setStatus(PaymentStatus.PENDING);
+            return payment;
+        });
     }
 
     @Test
@@ -134,6 +190,7 @@ class OrderServiceImplTest {
         when(cartService.calCartTotal(cart)).thenReturn(new BigDecimal("100.00"));
         when(orderItemRepository.save(any(OrderItem.class))).thenAnswer(inv -> inv.getArgument(0));
         when(orderRepository.save(any(Order.class))).thenAnswer(inv -> inv.getArgument(0));
+        stubPaymentCreation();
 
         Order order = orderService.createOrder(request, customer);
 
@@ -150,7 +207,8 @@ class OrderServiceImplTest {
 
         Order cancelled = orderService.cancelOrder(9L, customer);
 
-        assertEquals(OrderServiceImpl.STATUS_CANCELLED, cancelled.getOrderStatus());
+        assertEquals(OrderStatus.CANCELLED, cancelled.getOrderStatus());
+        verify(paymentService).onOrderCancelled(cancelled, customer.getEmail(), true);
     }
 
     @Test
@@ -167,7 +225,7 @@ class OrderServiceImplTest {
     @Test
     void deliveredOrderCannotBeCancelled() {
         Order order = pendingOrder();
-        order.setOrderStatus(OrderServiceImpl.STATUS_DELIVERED);
+        order.setOrderStatus(OrderStatus.DELIVERED);
         when(orderRepository.findById(9L)).thenReturn(Optional.of(order));
 
         assertThrows(OrderStatusException.class, () -> orderService.cancelOrder(9L, customer));
@@ -175,8 +233,18 @@ class OrderServiceImplTest {
 
     @Test
     void updateOrderRejectsUnknownStatus() {
-        assertThrows(OrderStatusException.class, () -> orderService.updateOrder(9L, "SHIPPED"));
+        assertThrows(OrderStatusException.class, () -> OrderStatus.fromString("SHIPPED"));
+        assertThrows(OrderStatusException.class, () -> orderService.updateOrder(9L, null));
         verify(orderRepository, never()).findById(anyLong());
+    }
+
+    @Test
+    void createOrderRejectsSuspendedRestaurant() throws Exception {
+        restaurant.setStatus(RestaurantStatus.SUSPENDED);
+        when(restaurantService.findRestaurantById(5L)).thenReturn(restaurant);
+
+        assertThrows(IllegalArgumentException.class, () -> orderService.createOrder(request, customer));
+        verify(orderRepository, never()).save(any());
     }
 
     private Order pendingOrder() {
@@ -184,7 +252,7 @@ class OrderServiceImplTest {
         order.setId(9L);
         order.setCustomer(customer);
         order.setRestaurant(restaurant);
-        order.setOrderStatus(OrderServiceImpl.STATUS_PENDING);
+        order.setOrderStatus(OrderStatus.PENDING);
         return order;
     }
 }

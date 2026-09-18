@@ -31,7 +31,8 @@ public class Order {
     @Column(precision = 12, scale = 2)
     private BigDecimal totalAmount;
 
-    private String orderStatus;
+    @Enumerated(EnumType.STRING)
+    private OrderStatus orderStatus;
 
     private Date createdAt;
 
@@ -48,4 +49,8 @@ public class Order {
 
     @Enumerated(EnumType.STRING)
     private PaymentMethods paymentMethod;
+
+    @OneToOne(mappedBy = "order")
+    @JsonIgnore
+    private Payment payment;
 }

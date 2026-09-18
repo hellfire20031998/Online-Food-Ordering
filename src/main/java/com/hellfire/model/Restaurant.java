@@ -52,6 +52,10 @@ public class Restaurant {
 
     private  boolean open;
 
+    /** Platform-level status set by the team; null (legacy rows) is treated as ACTIVE. */
+    @Enumerated(EnumType.STRING)
+    private RestaurantStatus status = RestaurantStatus.ACTIVE;
+
     @JsonIgnore
     @OneToMany(mappedBy = "restaurant",cascade = CascadeType.ALL,orphanRemoval = true)
     private List<Food> foods=new ArrayList<>();
@@ -60,4 +64,7 @@ public class Restaurant {
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RestaurantRole> roles = new ArrayList<>();
 
+    public boolean isSuspended() {
+        return status == RestaurantStatus.SUSPENDED;
+    }
 }

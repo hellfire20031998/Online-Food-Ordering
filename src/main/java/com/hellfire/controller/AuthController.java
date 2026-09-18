@@ -5,6 +5,7 @@ import com.hellfire.exceptions.EmailAlreadyRegisteredException;
 import com.hellfire.model.Cart;
 import com.hellfire.model.User;
 import com.hellfire.model.UserRole;
+import com.hellfire.model.UserStatus;
 import com.hellfire.repository.CartRepository;
 import com.hellfire.repository.UserRepository;
 import com.hellfire.request.LoginRequest;
@@ -23,15 +24,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.time.LocalDateTime;
 
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthController {
-
-    /** Roles a user may choose at signup. Staff roles are assigned by a restaurant owner. */
-    private static final List<UserRole> SIGNUP_ROLES = List.of(UserRole.CUSTOMER, UserRole.ADMIN);
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -39,6 +37,7 @@ public class AuthController {
     private final CustomerUserDetailsService customerUserDetailsService;
     private final CartRepository cartRepository;
 
+    /** Public signup: always a CUSTOMER. Owners and team members are created through other flows. */
     @PostMapping("/signup")
     @Transactional
     public ResponseEntity<AuthResponse> createUserHandler(@Valid @RequestBody SignupRequest request) {
@@ -46,15 +45,12 @@ public class AuthController {
             throw new EmailAlreadyRegisteredException("Email is already registered");
         }
 
-        UserRole role = request.getRole() == null ? UserRole.CUSTOMER : request.getRole();
-        if (!SIGNUP_ROLES.contains(role)) {
-            throw new IllegalArgumentException("Role " + role + " cannot be chosen at signup");
-        }
-
         User user = new User();
         user.setFullName(request.getFullName());
         user.setEmail(request.getEmail());
-        user.setRole(role);
+        user.setRole(UserRole.CUSTOMER);
+        user.setStatus(UserStatus.ACTIVE);
+        user.setCreatedAt(LocalDateTime.now());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         userRepository.save(user);
 
@@ -94,15 +90,5 @@ public class AuthController {
         }
         return new UsernamePasswordAuthenticationToken(
                 userDetails.getUsername(), null, userDetails.getAuthorities());
-    }
-
-    @GetMapping("/roles")
-    public List<UserRole> getRoles() {
-        return SIGNUP_ROLES;
-    }
-
-    @GetMapping("/restaurant/roles")
-    public List<UserRole> getRestaurantRoles() {
-        return List.of(UserRole.ADMIN, UserRole.MANAGER, UserRole.MEMBER);
     }
 }

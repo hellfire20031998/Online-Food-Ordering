@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -25,7 +26,8 @@ public class GlobalExceptionHandler {
             CartItemNotFoundException.class,
             CategoryNotFoundException.class,
             IngredientCategoryIdNotFoundException.class,
-            OrderNotFoundException.class
+            OrderNotFoundException.class,
+            ResourceNotFoundException.class
     })
     public ResponseEntity<ErrorResponse> handleNotFound(Exception ex, WebRequest request) {
         return build(HttpStatus.NOT_FOUND, ex.getMessage(), request);
@@ -41,9 +43,15 @@ public class GlobalExceptionHandler {
         return build(HttpStatus.CONFLICT, ex.getMessage(), request);
     }
 
-    @ExceptionHandler(NotAuthorizedException.class)
-    public ResponseEntity<ErrorResponse> handleNotAuthorized(NotAuthorizedException ex, WebRequest request) {
+    @ExceptionHandler({NotAuthorizedException.class, AccountBlockedException.class})
+    public ResponseEntity<ErrorResponse> handleNotAuthorized(RuntimeException ex, WebRequest request) {
         return build(HttpStatus.FORBIDDEN, ex.getMessage(), request);
+    }
+
+    /** Thrown by @PreAuthorize checks; without this it would fall through to the 500 handler. */
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ErrorResponse> handleAccessDenied(AccessDeniedException ex, WebRequest request) {
+        return build(HttpStatus.FORBIDDEN, "You do not have permission to perform this action", request);
     }
 
     @ExceptionHandler({OrderStatusException.class, IllegalArgumentException.class})

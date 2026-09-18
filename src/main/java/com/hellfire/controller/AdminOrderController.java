@@ -1,6 +1,7 @@
 package com.hellfire.controller;
 
 import com.hellfire.model.Order;
+import com.hellfire.model.OrderStatus;
 import com.hellfire.model.User;
 import com.hellfire.order.dto.OrderDto;
 import com.hellfire.order.mapper.OrderMapper;
@@ -31,7 +32,8 @@ public class AdminOrderController {
         User user = userService.findUserByJwtToken(token);
         restaurantService.getRestaurantForUser(id, user);
 
-        List<OrderDto> orders = OrderMapper.toDtos(orderService.getRestaurantOrder(id, status));
+        OrderStatus filter = (status == null || status.isBlank()) ? null : OrderStatus.fromString(status);
+        List<OrderDto> orders = OrderMapper.toDtos(orderService.getRestaurantOrder(id, filter));
         return new ResponseEntity<>(orders, HttpStatus.OK);
     }
 
@@ -43,6 +45,7 @@ public class AdminOrderController {
         Order order = orderService.findOrderById(id);
         restaurantService.getRestaurantForUser(order.getRestaurant().getId(), user);
 
-        return new ResponseEntity<>(OrderMapper.toDto(orderService.updateOrder(id, status)), HttpStatus.OK);
+        OrderStatus newStatus = OrderStatus.fromString(status);
+        return new ResponseEntity<>(OrderMapper.toDto(orderService.updateOrder(id, newStatus)), HttpStatus.OK);
     }
 }

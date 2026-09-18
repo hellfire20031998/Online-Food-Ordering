@@ -15,11 +15,17 @@ public interface RestaurantService {
 
     void deleteRestaurant(Long id) throws Exception;
 
+    /** Customer-facing listing: suspended restaurants are excluded. */
     List<Restaurant> getAllRestaurants();
 
+    /** Customer-facing search: suspended restaurants are excluded. */
     List<Restaurant> searchRestaurant(String query);
 
+    /** Internal lookup by id regardless of platform status. */
     Restaurant findRestaurantById(Long id) throws Exception;
+
+    /** Customer-facing lookup: a suspended restaurant is reported as not found. */
+    Restaurant getPublicRestaurant(Long id) throws Exception;
 
     Restaurant getRestaurantByUserId(Long id) throws Exception;
 

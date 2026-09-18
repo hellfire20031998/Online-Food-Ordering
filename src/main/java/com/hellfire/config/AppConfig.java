@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -20,6 +21,7 @@ import java.util.List;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 public class AppConfig {
 
     private final List<String> allowedOrigins;
@@ -40,6 +42,12 @@ public class AppConfig {
                                 "/api/restaurants/{id:\\d+}",
                                 "/api/food/**",
                                 "/api/category/restaurant/**").permitAll()
+                        // Payment gateway webhooks authenticate with their own signature
+                        .requestMatchers(HttpMethod.POST, "/api/payments/webhook/**").permitAll()
+                        // Platform team console. Finer-grained rules (admin/manager only actions)
+                        // are enforced with @PreAuthorize on the team controllers.
+                        .requestMatchers("/api/team/**").hasAnyAuthority(
+                                "TEAM_ADMIN", "TEAM_MANAGER", "TEAM_CUSTOMER_SUPPORT", "TEAM_RESTAURANT_SUPPORT")
                         // Restaurant management: owners (ADMIN) and staff roles only
                         .requestMatchers("/api/admin/**").hasAnyAuthority("ADMIN", "MANAGER", "MEMBER")
                         .requestMatchers("/api/**").authenticated()

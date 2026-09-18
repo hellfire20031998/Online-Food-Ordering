@@ -5,8 +5,8 @@ import com.hellfire.exceptions.NotAuthorizedException;
 import com.hellfire.exceptions.RestaurantException;
 import com.hellfire.model.Address;
 import com.hellfire.model.Restaurant;
+import com.hellfire.model.RestaurantStatus;
 import com.hellfire.model.User;
-import com.hellfire.model.UserRole;
 import com.hellfire.repository.AddressRepository;
 import com.hellfire.repository.RestaurantRepository;
 import com.hellfire.repository.RestaurantRoleRepository;
@@ -50,6 +50,7 @@ public class RestaurantServiceImpl implements RestaurantService {
         restaurant.setRegistrationDate(LocalDateTime.now());
         restaurant.setOwner(user);
         restaurant.setOpen(true);
+        restaurant.setStatus(RestaurantStatus.ACTIVE);
         restaurant.setCuisineType(req.getCuisineType());
         return restaurantRepository.save(restaurant);
     }
@@ -93,18 +94,27 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     @Override
     public List<Restaurant> getAllRestaurants() {
-        return restaurantRepository.findAll();
+        return restaurantRepository.findAllPublic(RestaurantStatus.SUSPENDED);
     }
 
     @Override
     public List<Restaurant> searchRestaurant(String query) {
-        return restaurantRepository.findBySearchQuery(query);
+        return restaurantRepository.searchPublic(query, RestaurantStatus.SUSPENDED);
     }
 
     @Override
     public Restaurant findRestaurantById(Long id) throws Exception {
         return restaurantRepository.findById(id)
                 .orElseThrow(() -> new RestaurantException("Restaurant with ID " + id + " not found"));
+    }
+
+    @Override
+    public Restaurant getPublicRestaurant(Long id) throws Exception {
+        Restaurant restaurant = findRestaurantById(id);
+        if (restaurant.isSuspended()) {
+            throw new RestaurantException("Restaurant with ID " + id + " not found");
+        }
+        return restaurant;
     }
 
     @Override
