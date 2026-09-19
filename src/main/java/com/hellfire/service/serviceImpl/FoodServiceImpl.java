@@ -4,6 +4,7 @@ import com.hellfire.exceptions.FoodIdNotFoundException;
 import com.hellfire.model.Category;
 import com.hellfire.model.Food;
 import com.hellfire.model.Restaurant;
+import com.hellfire.model.RestaurantStatus;
 import com.hellfire.repository.CartItemRepository;
 import com.hellfire.repository.FoodRepository;
 import com.hellfire.request.CreateFoodRequest;
@@ -113,7 +114,10 @@ public class FoodServiceImpl implements FoodService {
 
     @Override
     public List<Food> searchFood(String keyword) {
-        return foodRepository.searchFood(keyword);
+        if (keyword == null || keyword.isBlank()) {
+            return List.of();
+        }
+        return foodRepository.searchFood(keyword.trim(), RestaurantStatus.SUSPENDED);
     }
 
     @Override

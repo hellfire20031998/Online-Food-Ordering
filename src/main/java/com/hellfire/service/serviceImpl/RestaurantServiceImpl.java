@@ -99,7 +99,10 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     @Override
     public List<Restaurant> searchRestaurant(String query) {
-        return restaurantRepository.searchPublic(query, RestaurantStatus.SUSPENDED);
+        if (query == null || query.isBlank()) {
+            return List.of();
+        }
+        return restaurantRepository.searchPublic(query.trim(), RestaurantStatus.SUSPENDED);
     }
 
     @Override
