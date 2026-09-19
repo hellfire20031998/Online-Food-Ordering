@@ -28,7 +28,8 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long>, J
 
     @Query("SELECT r FROM Restaurant r WHERE (r.status IS NULL OR r.status <> :suspended) AND (" +
             "lower(r.name) LIKE lower(concat('%', :query, '%')) " +
-            "OR lower(r.cuisineType) LIKE lower(concat('%', :query, '%'))) " +
+            "OR lower(r.cuisineType) LIKE lower(concat('%', :query, '%')) " +
+            "OR lower(r.description) LIKE lower(concat('%', :query, '%'))) " +
             "ORDER BY r.open DESC, lower(r.name) ASC")
     List<Restaurant> searchPublic(@Param("query") String query, @Param("suspended") RestaurantStatus suspended);
 

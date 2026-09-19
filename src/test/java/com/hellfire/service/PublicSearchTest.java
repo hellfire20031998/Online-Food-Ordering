@@ -32,6 +32,7 @@ class PublicSearchTest extends MoneyFlowTestSupport {
         active = restaurant(user("search.owner@test.com", UserRole.ADMIN), false);
         active.setName("Spice Route Kitchen");
         active.setCuisineType("North Indian");
+        active.setDescription("Slow-cooked curries and wood-fired naan");
         restaurantRepository.save(active);
 
         Restaurant suspended = restaurant(user("suspended.owner@test.com", UserRole.ADMIN), false);
@@ -80,6 +81,11 @@ class PublicSearchTest extends MoneyFlowTestSupport {
                 .andExpect(jsonPath("$[0].name").value("Spice Route Kitchen"));
 
         mockMvc.perform(get("/api/restaurants/search").param("name", "north indian"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(1)));
+
+        // Descriptions count too, so a "naan" search finds the restaurant even if no dish is named that.
+        mockMvc.perform(get("/api/restaurants/search").param("name", "NAAN"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)));
     }
