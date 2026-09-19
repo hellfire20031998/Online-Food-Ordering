@@ -18,13 +18,18 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long>, J
 
     boolean existsByNameIgnoreCase(String name);
 
-    /** Customer-facing listing: everything that is not suspended (legacy null status counts as active). */
-    @Query("SELECT r FROM Restaurant r WHERE r.status IS NULL OR r.status <> :suspended")
+    /**
+     * Customer-facing listing: everything that is not suspended (legacy null status counts as active),
+     * open restaurants first, then alphabetical.
+     */
+    @Query("SELECT r FROM Restaurant r WHERE r.status IS NULL OR r.status <> :suspended " +
+            "ORDER BY r.open DESC, lower(r.name) ASC")
     List<Restaurant> findAllPublic(@Param("suspended") RestaurantStatus suspended);
 
     @Query("SELECT r FROM Restaurant r WHERE (r.status IS NULL OR r.status <> :suspended) AND (" +
             "lower(r.name) LIKE lower(concat('%', :query, '%')) " +
-            "OR lower(r.cuisineType) LIKE lower(concat('%', :query, '%')))")
+            "OR lower(r.cuisineType) LIKE lower(concat('%', :query, '%'))) " +
+            "ORDER BY r.open DESC, lower(r.name) ASC")
     List<Restaurant> searchPublic(@Param("query") String query, @Param("suspended") RestaurantStatus suspended);
 
     long countByStatus(RestaurantStatus status);

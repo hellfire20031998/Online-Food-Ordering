@@ -113,6 +113,27 @@ class TeamAccessControlTest {
                 .andExpect(status().isForbidden());
     }
 
+    // ------------------------------------------------------------ public listing order
+
+    @Test
+    void publicListingShowsOpenRestaurantsFirstThenClosedOnes() throws Exception {
+        Restaurant closed = new Restaurant();
+        closed.setName("Aardvark Diner"); // alphabetically first, but closed
+        closed.setOwner(user("owner2@test.local", UserRole.ADMIN)); // one restaurant per owner
+        closed.setOpen(false);
+        closed.setStatus(RestaurantStatus.ACTIVE);
+        closed.setRegistrationDate(LocalDateTime.now());
+        restaurantRepository.save(closed);
+
+        mockMvc.perform(get("/api/restaurants"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$[0].name").value("Test Kitchen"))
+                .andExpect(jsonPath("$[0].open").value(true))
+                .andExpect(jsonPath("$[1].name").value("Aardvark Diner"))
+                .andExpect(jsonPath("$[1].open").value(false));
+    }
+
     // ------------------------------------------------------------ restaurant suspension
 
     @Test
