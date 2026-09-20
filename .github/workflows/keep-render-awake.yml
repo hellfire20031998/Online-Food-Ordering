@@ -1,6 +1,10 @@
-# Render's free tier spins the API down after ~15 idle minutes, and the next visitor then waits up
-# to a minute for it to boot. Pinging the health URL every 10 minutes keeps it warm.
-# GitHub may delay scheduled runs by a few minutes; that is fine for this purpose.
+# Render's free tier spins the API down after ~15 idle minutes, and the next visitor then waits for
+# it to boot. Pinging the API keeps it warm.
+#
+# Caveat: GitHub runs scheduled workflows on a best-effort basis. In practice a "*/10" schedule is
+# often delayed by an hour or more, so this is a safety net, not a guarantee. For a reliable warm
+# server use an external monitor (UptimeRobot, cron-job.org, Better Stack: all have free tiers that
+# ping every 5 minutes) pointed at the same URL.
 name: Keep Render awake
 
 on:
@@ -11,10 +15,22 @@ on:
 jobs:
   ping:
     runs-on: ubuntu-latest
-    timeout-minutes: 3
+    timeout-minutes: 8
     steps:
-      - name: Ping the API
+      - name: Ping the API (wait for a cold start)
         run: |
-          code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 90 "https://online-food-ordering-a8ys.onrender.com/api/restaurants")
-          echo "API answered with HTTP $code"
-          test "$code" = "200"
+          url="https://online-food-ordering-a8ys.onrender.com/api/restaurants"
+          # A cold Spring Boot start on the free tier can take well over a minute, so try several
+          # times with generous timeouts instead of giving up after one request.
+          for attempt in 1 2 3 4 5; do
+            code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 120 "$url" || true)
+            echo "attempt $attempt: HTTP ${code:-000}"
+            if [ "$code" = "200" ]; then
+              echo "API is awake"
+              exit 0
+            fi
+            sleep 20
+          done
+          echo "::warning::API did not answer 200 after 5 attempts"
+          # Do not fail the workflow: repeated failures make GitHub de-prioritise the schedule.
+          exit 0
